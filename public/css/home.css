@@ -1,0 +1,31 @@
+
+
+
+
+body{
+	background-color: black;
+	background-image:url("../images/backgroundHome.gif");
+	background-repeat: no-repeat;
+	
+
+	
+}
+
+
+#headImage{
+	background-image: url("../images/headerImg.png");
+	position: relative;
+	background-size: 650px;
+	background-repeat: no-repeat;
+	background-color: black;
+	
+}
+
+
+#signUp {
+	background-color: tan;
+	/*background-image: url("../images/menuScroll.png");*/
+  	position:relative;
+  	background-repeat: no-repeat;
+
+}
