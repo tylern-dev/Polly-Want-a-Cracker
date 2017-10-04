@@ -1,7 +1,4 @@
 
-
-
-
 body{
 	background-color: black;
 	background-image:url("../images/backgroundHome.gif");
@@ -10,7 +7,6 @@ body{
 
 	
 }
-
 
 #headImage{
 	background-image: url("../images/headerImg.png");
@@ -21,11 +17,14 @@ body{
 	
 }
 
-
 #signUp {
 	background-color: tan;
 	/*background-image: url("../images/menuScroll.png");*/
   	position:relative;
   	background-repeat: no-repeat;
 
+}
+
+.parrot-select{
+	width: 90px;
 }
