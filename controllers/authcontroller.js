@@ -18,3 +18,8 @@ exports.logout = function(req, res){
         res.redirect('/')
     })
 }
+
+exports.scores = function(req, res){
+    res.render('scores')
+}
+

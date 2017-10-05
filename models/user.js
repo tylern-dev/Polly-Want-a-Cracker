@@ -22,7 +22,7 @@ module.exports = function(sequelize, DataType){
             },
 
             character: {
-                type: DataType.INTEGER
+                type: DataType.STRING
             },
     
             about: {
