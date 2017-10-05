@@ -50,6 +50,10 @@ module.exports = function(sequelize, DataType){
                 defaultValue: 'active'
             }
         });
+
+        User.associate = function(models){
+            User.hasMany(models.score);
+        }
         
         return User;
     
