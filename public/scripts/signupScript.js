@@ -9,14 +9,19 @@
         this.fname = fname;
         this.lname = lname;
         this.email = email;
-        this.character = character
+        this.character = character;
     }
 
+
+    
+    console.log(playerCharacter)
+
     function buildPlayerProfile(){
-        $('body').on('click','#parrot-choose', function(event){
-            console.log(event.currentTarget.value)
-        })
-    }
+        $('#register-form input').on('change', function() {
+            playerCharacter = $('input[name=parrot-select]:checked', '#register-form').val(); 
+        });
+
+    };
 
     buildPlayerProfile();
     
