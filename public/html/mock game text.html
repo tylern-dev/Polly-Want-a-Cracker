@@ -16,16 +16,17 @@ canvas {
 
 var myGamePiece;
 var myObstacles = [];
+var myCrackers = [];
 var myScore;
 
 function startGame() {
     myGamePiece = new component(50, 50, "../images/polly.gif", 10, 200, "image");
     myGamePiece.gravity = 0;
-    myScore = new score("30px", "Consolas", "black", 280, 40, "text");
+    myScore = new score("30px", "Consolas", "black", 0, 40, "text");
     myGameArea.start();
 }
 
-
+//var intervalgame = [otherGameArea, updateGameArea, bottomCrackersGameArea, topCrackersGameArea];
 var myGameArea = {
 canvas : document.createElement("canvas"),
     start : function() {
@@ -34,7 +35,11 @@ canvas : document.createElement("canvas"),
         this.context = this.canvas.getContext("2d");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.frameNo = 0;
-        this.interval = setInterval(updateGameArea, 20);
+        //this.interval = setInterval(updateGameArea, 20);
+        //this.interval2 = setInterval(otherGameArea, 20);
+        this.interval3 = setInterval(topCrackersGameArea, 20);
+        this.interval4 = setInterval(bottomCrackersGameArea, 20);
+        
         },
     clear : function() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -66,7 +71,7 @@ function score(width, height, color, x, y, type) {
   }
 }
 
- //this is for the borders and crash into pirate componets
+ //this is for the borders and crash into pirate/cracker componets
 function component(width, height, color, x, y, type) {
   this.type = type;
   if (type == "image") {
@@ -142,12 +147,31 @@ function component(width, height, color, x, y, type) {
         if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
             crash = false;
         }
-       
-        return crash;
-        
+        return crash
     }
-}
+       
 
+ 
+    this.dontCrashWith = function(cracker) {
+        var myleft = this.x;
+        var myright = this.x + (this.width);
+        var mytop = this.y;
+        var mybottom = this.y + (this.height);
+        var crackerleft = cracker.x;
+        var crackerright = cracker.x + (cracker.width);
+        var crackertop = cracker.y;
+        var crackerbottom = cracker.y + (cracker.height);
+        var dontCrash = false;
+        if ((mybottom < crackertop) || (mytop < crackerbottom) || (myright < crackerleft) || (myleft < crackerright)) {
+            dontCrash = false;
+        }
+       
+        return dontCrash
+       
+    }
+
+}
+////////////////////////////////////////for the top spawn enemies
 function updateGameArea() {
     var x, height, gap, minHeight, maxHeight, minGap, maxGap, imagesTop, imagesBottom, topSpawn, bottomSpawn;
     for (i = 0; i < myObstacles.length; i += 1) {
@@ -160,20 +184,20 @@ function updateGameArea() {
     if (myGameArea.frameNo == 1 || everyinterval(500)) {
         x = myGameArea.canvas.width;
         y = myGameArea.canvas.height;
-        minHeight = 100;
+        minHeight = 0;
         maxHeight = 100;
         height = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
         minGap = 200;
         maxGap = 400;
         gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
         imagesTop = ["../images/balloonPirate.gif", "../images/netPirate.gif"];
-        imagesBottom = ["../images/gunPirate.png", "../images/spearPirate.png"];
+       // imagesBottom = ["../images/gunPirate.png", "../images/spearPirate.png", "../images/bottlePirate.png"];
         topSpawn = imagesTop[Math.floor(Math.random()*imagesTop.length)];
-        bottomSpawn = imagesBottom[Math.floor(Math.random()*imagesBottom.length)];
+       // bottomSpawn = imagesBottom[Math.floor(Math.random()*imagesBottom.length)];
         //top bar
-        myObstacles.push(new component(200, 100, topSpawn, x, 0,  "image"));
+        myObstacles.push(new component(200, 100, topSpawn, x, height,  "image"));
         //bottom bar
-       myObstacles.push(new component(200, 100, bottomSpawn, x, height + gap, "image"));
+      // myObstacles.push(new component(200, 100, bottomSpawn, x, height + gap, "image"));
 
         // myObstacles.push(new component(10, x - height - gap, bottomSpawn, x, height + gap, "image"));
     
@@ -193,46 +217,228 @@ function updateGameArea() {
     }
   
     for (i = 0; i < myObstacles.length; i += 1) {
-        myObstacles[i].x += -1;
+        myObstacles[i].x += -.5;
         //myObstacles[i].y += -1;
         myObstacles[i].update();
     }
-    myScore.text="SCORE: " + myGameArea.frameNo;
+    //myScore.text="SCORE: " + myGameArea.frameNo;
     myScore.update();
     myGamePiece.newPos();
     myGamePiece.update();
 }
 
+function otherGameArea() {
+    var x, height, gap, minHeight, maxHeight, minGap, maxGap, imagesTop, imagesBottom, topSpawn, bottomSpawn;
+    for (i = 0; i < myObstacles.length; i += 1) {
+        if (myGamePiece.crashWith(myObstacles[i])) {
+            return;
+        } 
+    }
+    myGameArea.clear();
+    myGameArea.frameNo += 1;
+    if (myGameArea.frameNo == 1 || everyinterval(500)) {
+        x = myGameArea.canvas.width;
+        minHeight = 100;
+        maxHeight = 100;
+        height = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
+        minGap = 250;
+        maxGap = 350;
+        gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
+       //imagesTop = ["../images/balloonPirate.gif", "../images/netPirate.gif"];
+        imagesBottom = ["../images/gunPirate.png", "../images/spearPirate.png", "../images/bottlePirate.png"];
+        //topSpawn = imagesTop[Math.floor(Math.random()*imagesTop.length)];
+        bottomSpawn = imagesBottom[Math.floor(Math.random()*imagesBottom.length)];
+        //top bar
+        //myObstacles.push(new component(200, 100, topSpawn, x, 0,  "image"));
+        //bottom bar
+       myObstacles.push(new component(200, 100, bottomSpawn, x, height + gap, "image"));
+
+        // myObstacles.push(new component(10, x - height - gap, bottomSpawn, x, height + gap, "image"));
+    
+    //this is for the images of the enemies
+    this.update = function() {
+    ctx = myGameArea.context;
+    if (type == "image") {
+      ctx.drawImage(this.image, 
+        this.x, 
+        this.y,
+        this.width, this.height);
+    } else {
+      ctx.fillStyle = color;
+      ctx.fillRect(this.x, this.y, this.width, this.height);
+    }
+  }
+ }
+  
+    for (i = 0; i < myObstacles.length; i += 1) {
+        myObstacles[i].x += -.5;
+        //myObstacles[i].y += -1;
+        myObstacles[i].update();
+    }
+    //myScore.text="SCORE: " + myGameArea.dontCrash;
+    myScore.update();
+    myGamePiece.newPos();
+    myGamePiece.update();
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////CRACKER ZONE/////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+//////////////////////////////////////for the top crackers//////////////////////////////////////////////
+
+function topCrackersGameArea() {
+    var score = 0;
+    var x, height, gap, minHeight, maxHeight, minGap, maxGap, crackersTop, crackerSpawn1;
+    for (i = 0; i < myCrackers.length; i += 1) {
+        if (myGamePiece.dontCrashWith(myCrackers[i])) {
+            return;
+        } 
+    }
+    myGameArea.clear();
+    myGameArea.frameNo += 1;
+    if (myGameArea.frameNo == 1 || everyinterval(700)) {
+        x = myGameArea.canvas.width;
+        y = myGameArea.canvas.height;
+        minHeight = 0;
+        maxHeight = 100;
+        height = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
+        minGap = 200;
+        maxGap = 400;
+        gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
+        crackersTop = ["../images/1cracker.gif", "../images/2cracker.gif", "../images/3cracker.gif", "../images/4cracker.gif"];
+       // imagesBottom = ["../images/gunPirate.png", "../images/spearPirate.png", "../images/bottlePirate.png"];
+        crackerSpawn1 = crackersTop[Math.floor(Math.random()*crackersTop.length)];
+       // bottomSpawn = imagesBottom[Math.floor(Math.random()*imagesBottom.length)];
+        //top bar
+        myCrackers.push(new component(30, 30, crackerSpawn1, x, height,  "image"));
+        //bottom bar
+      // myCrackers.push(new component(200, 100, bottomSpawn, x, height + gap, "image"));
+
+        // myCrackers.push(new component(10, x - height - gap, bottomSpawn, x, height + gap, "image"));
+    
+    //this is for the images of the enemies
+    this.update = function() {
+    ctx = myGameArea.context;
+    if (type == "image") {
+      ctx.drawImage(this.image, 
+        this.x, 
+        this.y,
+        this.width, this.height);
+    } else {
+      ctx.fillStyle = color;
+      ctx.fillRect(this.x, this.y, this.width, this.height);
+    }
+  }
+    }
+ 
+    for (i = 0; i < myCrackers.length; i += 1) {
+        myCrackers[i].x += -.5;
+        //myCrackers[i].y += -1;
+        myCrackers[i].update();
+}
+
+    myScore.text="SCORE: " + score;
+    myScore.update();
+    myGamePiece.newPos();
+    myGamePiece.update();
+}
+///////////////////////////////////////////bottom crackers/////////////////////////////////////////////////////////
+function bottomCrackersGameArea() {
+    var dontCrashScore = 0;
+    var x, height, gap, minHeight, maxHeight, minGap, maxGap, crackerBottom, crackerSpawn2;
+    for (i = 0; i < myCrackers.length; i += 1) {
+        if (myGamePiece.dontCrashWith(myCrackers[i])) {
+            return;
+        } 
+    }
+    myGameArea.clear();
+    myGameArea.frameNo += 1;
+    if (myGameArea.frameNo == 1 || everyinterval(700)) {
+        x = myGameArea.canvas.width;
+        minHeight = 100;
+        maxHeight = 100;
+        height = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
+        minGap = 250;
+        maxGap = 350;
+        gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
+      
+        crackerBottom = ["../images/1cracker.gif", "../images/2cracker.gif", "../images/3cracker.gif", "../images/4cracker.gif"];
+    
+        crackerSpawn2 = crackerBottom[Math.floor(Math.random()*crackerBottom.length)];
+
+        myCrackers.push(new component(30, 30, crackerSpawn2, x, height + gap, "image"));
+
+        // myCrackers.push(new component(10, x - height - gap, crackerSpawn2, x, height + gap, "image"));
+    
+    //this is for the images of the enemies
+    this.update = function() {
+    ctx = myGameArea.context;
+    if (type == "image") {
+      ctx.drawImage(this.image, 
+        this.x, 
+        this.y,
+        this.width, this.height);
+    } else {
+      ctx.fillStyle = color;
+      ctx.fillRect(this.x, this.y, this.width, this.height);
+    }
+  }
+ }
+  
+    for (i = 0; i < myCrackers.length; i += 1) {
+        myCrackers[i].x += -.5;
+        //myCrackers[i].y += -1;
+        myCrackers[i].update();
+    }
+    myScore.text="SCORE: " + dontCrashScore;
+    myScore.update();
+    myGamePiece.newPos();
+    myGamePiece.update();
+}
+
+
 function everyinterval(n) {
     if ((myGameArea.frameNo / n) % 1 == 0) {return true;}
     return false;
 }
+
+    
 //old controls
 // function accelerate(n) {
 //     myGamePiece.gravity = n;
 // }
 
 function moveup(e) {
-    // myGamePiece.image.src = "../images/gb_walk.png";
-    myGamePiece.speedY = -1; 
+    myGamePiece.image.src = "../images/pauline.gif";
+    myGamePiece.speedY = -1.5; 
 }
 
 function movedown() {
-    myGamePiece.speedY = 1; 
+    myGamePiece.image.src = "../images/pete.gif";
+    myGamePiece.speedY = 1.5; 
 }
 
 function moveleft() {
-    myGamePiece.speedX = -1; 
+    myGamePiece.image.src = "../images/pirateslayer.gif";
+    myGamePiece.speedX = -1.5; 
 }
 
 function moveright() {
-    myGamePiece.speedX = 1; 
+    myGamePiece.image.src = "../images/polly.gif";
+    myGamePiece.speedX = 1.5; 
 }
 
 function clearmove(e) {
+    myGamePiece.image.src = "../images/polly.gif";
     myGamePiece.speedX = 0; 
     myGamePiece.speedY = 0; 
 }
+
+
 startGame();
 
   //TO BE USED LATER TO ENABLE flapping up and down
@@ -249,7 +455,8 @@ startGame();
 // }
 </script>
 <br>
-<!--old controls<button onmousedown="accelerate(-0.02)" onmouseup="accelerate(0.02)">ACCELERATE</button>-->
+
+<!--old controls<button onmousedown="accelerate(-0.01.5)" onmouseup="accelerate(0.02)">ACCELERATE</button>-->
 <div style="text-align:center;width:320px;">
   <button ontouchstart="moveup()" onmousedown="moveup()" onmouseup="clearmove()">UP</button><br><br>
   <button ontouchstart="moveleft()" onmousedown="moveleft()" onmouseup="clearmove()">LEFT</button>
