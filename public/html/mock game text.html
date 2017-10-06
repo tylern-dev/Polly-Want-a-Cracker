@@ -66,7 +66,7 @@ function score(width, height, color, x, y, type) {
   }
 }
 
- //this is for the
+ //this is for the borders and crash into pirate componets
 function component(width, height, color, x, y, type) {
   this.type = type;
   if (type == "image") {
@@ -93,29 +93,39 @@ function component(width, height, color, x, y, type) {
       ctx.fillRect(this.x, this.y, this.width, this.height);
     }
   }
-  //TO BE USED LATER TO ENABLE flapping up and down
-// function move(dir) {
-//     myGamePiece.image.src = "../images/pete.gif";
-//     if (dir == "up") {myGamePiece.speedY = -1; }
-//     if (dir == "down") {myGamePiece.speedY = 1; }
-// }
-
-// function clearmove() {
-//     myGamePiece.image.src = "smiley.gif";
-//     myGamePiece.speedX = 0; 
-//     myGamePiece.speedY = 0; 
-// }
 
     this.newPos = function() {
         this.gravitySpeed += this.gravity;
         this.x += this.speedX;
         this.y += this.speedY + this.gravitySpeed;
         this.hitBottom();
+        this.hitTop();
+        this.hitRight();
+        this.hitLeft();
+    }
+    this.hitRight = function() {
+        var rightSide = myGameArea.canvas.width - this.width;
+        if (this.x > rightSide) {
+            this.x = rightSide;
+            this.gravitySpeed = 0;
+        }
+    }
+    this.hitLeft = function() {
+        if (this.x < 0) {
+            this.x = 0;
+            this.gravitySpeed = 0;
+        }
     }
     this.hitBottom = function() {
         var rockbottom = myGameArea.canvas.height - this.height;
         if (this.y > rockbottom) {
             this.y = rockbottom;
+            this.gravitySpeed = 0;
+        }
+    }
+    this.hitTop = function() {
+        if (this.y < 0) {
+            this.y = 0;
             this.gravitySpeed = 0;
         }
     }
@@ -132,12 +142,14 @@ function component(width, height, color, x, y, type) {
         if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
             crash = false;
         }
+       
         return crash;
+        
     }
 }
 
 function updateGameArea() {
-    var x, height, gap, minHeight, maxHeight, minGap, maxGap;
+    var x, height, gap, minHeight, maxHeight, minGap, maxGap, imagesTop, imagesBottom, topSpawn, bottomSpawn;
     for (i = 0; i < myObstacles.length; i += 1) {
         if (myGamePiece.crashWith(myObstacles[i])) {
             return;
@@ -147,18 +159,23 @@ function updateGameArea() {
     myGameArea.frameNo += 1;
     if (myGameArea.frameNo == 1 || everyinterval(500)) {
         x = myGameArea.canvas.width;
+        y = myGameArea.canvas.height;
         minHeight = 100;
         maxHeight = 100;
         height = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
         minGap = 200;
         maxGap = 400;
         gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
+        imagesTop = ["../images/balloonPirate.gif", "../images/netPirate.gif"];
+        imagesBottom = ["../images/gunPirate.png", "../images/spearPirate.png"];
+        topSpawn = imagesTop[Math.floor(Math.random()*imagesTop.length)];
+        bottomSpawn = imagesBottom[Math.floor(Math.random()*imagesBottom.length)];
         //top bar
-        myObstacles.push(new component(200, height, "../images/balloonPirate.gif", x, 0,  "image"));
+        myObstacles.push(new component(200, 100, topSpawn, x, 0,  "image"));
         //bottom bar
-        myObstacles.push(new component(200, height, "../images/gunPirate.gif", x, height + gap, "image"));
+       myObstacles.push(new component(200, 100, bottomSpawn, x, height + gap, "image"));
 
-        // myObstacles.push(new component(200, height - gap, "../images/spearPirate.gif", x, height + gap,  "image"));
+        // myObstacles.push(new component(10, x - height - gap, bottomSpawn, x, height + gap, "image"));
     
     //this is for the images of the enemies
     this.update = function() {
@@ -174,37 +191,10 @@ function updateGameArea() {
     }
   }
     }
-//in order to create a second set of enemies there will need to be a for loop to swith betweenthem---------------
-//      myGameArea.frameNo += 1;
-//     if (myGameArea.frameNo == 3 || everyinterval(700)) {
-//         x = myGameArea.canvas.width;
-//         minHeight = 100;
-//         maxHeight = 100;
-//         height = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
-//         minGap = 200;
-//         maxGap = 400;
-//         gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
-//         //top bar
-//         myObstacles.push(new component(200, height, "../images/netPirate.gif", x, 0,  "image"));
-//         //bottom bar
-//         myObstacles.push(new component(200, height, "../images/spearPirate.gif", x, height + gap, "image"));
-//     //this is for the images of the enemies
-//     this.update = function() {
-//     ctx = myGameArea.context;
-//     if (type == "image") {
-//       ctx.drawImage(this.image, 
-//         this.x, 
-//         this.y,
-//         this.width, this.height);
-//     } else {
-//       ctx.fillStyle = color;
-//       ctx.fillRect(this.x, this.y, this.width, this.height);
-//     }
-//   }
-// }
   
     for (i = 0; i < myObstacles.length; i += 1) {
         myObstacles[i].x += -1;
+        //myObstacles[i].y += -1;
         myObstacles[i].update();
     }
     myScore.text="SCORE: " + myGameArea.frameNo;
@@ -217,12 +207,13 @@ function everyinterval(n) {
     if ((myGameArea.frameNo / n) % 1 == 0) {return true;}
     return false;
 }
-
+//old controls
 // function accelerate(n) {
 //     myGamePiece.gravity = n;
 // }
 
 function moveup(e) {
+    // myGamePiece.image.src = "../images/gb_walk.png";
     myGamePiece.speedY = -1; 
 }
 
@@ -243,9 +234,22 @@ function clearmove(e) {
     myGamePiece.speedY = 0; 
 }
 startGame();
+
+  //TO BE USED LATER TO ENABLE flapping up and down
+// function move(dir) {
+//     myGamePiece.image.src = "../images/pete.gif";
+//     if (dir == "up") {myGamePiece.speedY = -1; }
+//     if (dir == "down") {myGamePiece.speedY = 1; }
+// }
+
+// function clearmove() {
+//     myGamePiece.image.src = "../images/pirateslayer.gif";
+//     myGamePiece.speedX = 0; 
+//     myGamePiece.speedY = 0; 
+// }
 </script>
 <br>
-<!--<button onmousedown="accelerate(-0.02)" onmouseup="accelerate(0.02)">ACCELERATE</button>-->
+<!--old controls<button onmousedown="accelerate(-0.02)" onmouseup="accelerate(0.02)">ACCELERATE</button>-->
 <div style="text-align:center;width:320px;">
   <button ontouchstart="moveup()" onmousedown="moveup()" onmouseup="clearmove()">UP</button><br><br>
   <button ontouchstart="moveleft()" onmousedown="moveleft()" onmouseup="clearmove()">LEFT</button>
