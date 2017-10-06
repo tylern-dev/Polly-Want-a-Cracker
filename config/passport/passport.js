@@ -49,14 +49,10 @@ module.exports = function (passport, user) {
                         if (newUser) {
                             return done(null, newUser);
                         }
-
                     });
                 }
-
             });
-
         }
-
     ));
 
     //LOCAL SIGNIN

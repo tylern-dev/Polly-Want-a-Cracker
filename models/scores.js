@@ -5,6 +5,5 @@ module.exports = function(sequelize, DataType){
         }
     });
 
-
     return Score;
 }
