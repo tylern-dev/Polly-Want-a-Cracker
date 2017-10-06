@@ -1,20 +1,19 @@
 // Requires
 var express = require('express');
-var app = express();
 var passport = require('passport');
 var session = require('express-session');
 var bodyParser = require('body-parser');
 var env = require('dotenv').load();
 var exphbs = require('express-handlebars');
 var path = require('path')
-// var db = require(path.join(__dirname, "./models"));
+
 var PORT = process.env.PORT || 3000;
 
 // initiate app
 var app = express();
 
 // models brought in from passport file
-var models = require('./models/index.js');
+var models = require(path.join(__dirname,'./models/index.js'));
 
 //use public folder with css and scripts
 app.use(express.static(path.join(__dirname, './public')));

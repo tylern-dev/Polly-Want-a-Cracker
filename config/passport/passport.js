@@ -36,7 +36,8 @@ module.exports = function (passport, user) {
                             email: email,
                             password: userPassword,
                             firstname: req.body.firstname,
-                            lastname: req.body.lastname
+                            lastname: req.body.lastname,
+                            character: req.body.parrotselect
                         };
 
                     User.create(data).then(function (newUser, created) {
@@ -48,14 +49,10 @@ module.exports = function (passport, user) {
                         if (newUser) {
                             return done(null, newUser);
                         }
-
                     });
                 }
-
             });
-
         }
-
     ));
 
     //LOCAL SIGNIN
