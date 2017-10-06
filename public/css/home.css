@@ -1,8 +1,9 @@
 
-body{
+.container{
 	background-color: black;
 	background-image:url("../images/backgroundHome.gif");
 	background-repeat: no-repeat;
+	padding-bottom: 25%;
 	
 
 	
@@ -18,13 +19,16 @@ body{
 }
 
 #signUp {
-	background-color: tan;
+	background-color: #FDDF87;
 	/*background-image: url("../images/menuScroll.png");*/
   	position:relative;
-  	background-repeat: no-repeat;
+	background-repeat: no-repeat;
+	padding: 20px;
 
 }
 
 .parrot-select{
-	width: 90px;
+	width: 85px;
 }
+
+

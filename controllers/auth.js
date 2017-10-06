@@ -13,6 +13,8 @@ module.exports = function(app, passport){
 
     app.get('/dashboard', isLoggedIn, authController.dashboard);
 
+    app.get('/scores', authController.scores);
+
     app.get('/logout', authController.logout);
 
     //route for posting to signin
