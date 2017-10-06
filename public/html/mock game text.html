@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<style>
+canvas {
+    border:1px solid #d3d3d3;
+    background-color: #f1f1f1;
+    background-image: url("../images/scrollingBack.gif");
+    background-image-size: 200px;
+}
+</style>
+</head>
+<body onload="startGame()">
+<script>
+
+var myGamePiece;
+var myObstacles = [];
+var myScore;
+
+function startGame() {
+    myGamePiece = new component(50, 50, "../images/polly.gif", 10, 200, "image");
+    myGamePiece.gravity = 0;
+    myScore = new score("30px", "Consolas", "black", 280, 40, "text");
+    myGameArea.start();
+}
+
+
+var myGameArea = {
+canvas : document.createElement("canvas"),
+    start : function() {
+        this.canvas.width = 1200;
+        this.canvas.height = 550;
+        this.context = this.canvas.getContext("2d");
+        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+        this.frameNo = 0;
+        this.interval = setInterval(updateGameArea, 20);
+        },
+    clear : function() {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+
+}
+        //this is for the score counter
+function score(width, height, color, x, y, type) {
+    this.type = type;
+    this.score = 0;
+    this.width = width;
+    this.height = height;
+    this.speedX = 0;
+    this.speedY = 0;    
+    this.x = x;
+    this.y = y;
+    this.gravity = 0;
+    this.gravitySpeed = 0;
+    this.update = function() {
+        ctx = myGameArea.context;
+        if (this.type == "text") {
+            ctx.font = this.width + " " + this.height;
+            ctx.fillStyle = color;
+            ctx.fillText(this.text, this.x, this.y);
+        } else {
+            ctx.fillStyle = color;
+            ctx.fillRect(this.x, this.y, this.width, this.height);
+        }
+  }
+}
+
+ //this is for the borders and crash into pirate componets
+function component(width, height, color, x, y, type) {
+  this.type = type;
+  if (type == "image") {
+    this.image = new Image();
+    this.image.src = color;
+  }
+  this.width = width;
+  this.height = height;
+  this.speedX = 0;
+  this.speedY = 0; 
+  this.x = x;
+  this.y = y;
+  this.gravity = 0;
+  this.gravitySpeed = 0; 
+  this.update = function() {
+    ctx = myGameArea.context;
+    if (type == "image") {
+      ctx.drawImage(this.image, 
+        this.x, 
+        this.y,
+        this.width, this.height);
+    } else {
+      ctx.fillStyle = color;
+      ctx.fillRect(this.x, this.y, this.width, this.height);
+    }
+  }
+
+    this.newPos = function() {
+        this.gravitySpeed += this.gravity;
+        this.x += this.speedX;
+        this.y += this.speedY + this.gravitySpeed;
+        this.hitBottom();
+        this.hitTop();
+        this.hitRight();
+        this.hitLeft();
+    }
+    this.hitRight = function() {
+        var rightSide = myGameArea.canvas.width - this.width;
+        if (this.x > rightSide) {
+            this.x = rightSide;
+            this.gravitySpeed = 0;
+        }
+    }
+    this.hitLeft = function() {
+        if (this.x < 0) {
+            this.x = 0;
+            this.gravitySpeed = 0;
+        }
+    }
+    this.hitBottom = function() {
+        var rockbottom = myGameArea.canvas.height - this.height;
+        if (this.y > rockbottom) {
+            this.y = rockbottom;
+            this.gravitySpeed = 0;
+        }
+    }
+    this.hitTop = function() {
+        if (this.y < 0) {
+            this.y = 0;
+            this.gravitySpeed = 0;
+        }
+    }
+    this.crashWith = function(otherobj) {
+        var myleft = this.x;
+        var myright = this.x + (this.width);
+        var mytop = this.y;
+        var mybottom = this.y + (this.height);
+        var otherleft = otherobj.x;
+        var otherright = otherobj.x + (otherobj.width);
+        var othertop = otherobj.y;
+        var otherbottom = otherobj.y + (otherobj.height);
+        var crash = true;
+        if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
+            crash = false;
+        }
+       
+        return crash;
+        
+    }
+}
+
+function updateGameArea() {
+    var x, height, gap, minHeight, maxHeight, minGap, maxGap, imagesTop, imagesBottom, topSpawn, bottomSpawn;
+    for (i = 0; i < myObstacles.length; i += 1) {
+        if (myGamePiece.crashWith(myObstacles[i])) {
+            return;
+        } 
+    }
+    myGameArea.clear();
+    myGameArea.frameNo += 1;
+    if (myGameArea.frameNo == 1 || everyinterval(500)) {
+        x = myGameArea.canvas.width;
+        y = myGameArea.canvas.height;
+        minHeight = 100;
+        maxHeight = 100;
+        height = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
+        minGap = 200;
+        maxGap = 400;
+        gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
+        imagesTop = ["../images/balloonPirate.gif", "../images/netPirate.gif"];
+        imagesBottom = ["../images/gunPirate.png", "../images/spearPirate.png"];
+        topSpawn = imagesTop[Math.floor(Math.random()*imagesTop.length)];
+        bottomSpawn = imagesBottom[Math.floor(Math.random()*imagesBottom.length)];
+        //top bar
+        myObstacles.push(new component(200, 100, topSpawn, x, 0,  "image"));
+        //bottom bar
+       myObstacles.push(new component(200, 100, bottomSpawn, x, height + gap, "image"));
+
+        // myObstacles.push(new component(10, x - height - gap, bottomSpawn, x, height + gap, "image"));
+    
+    //this is for the images of the enemies
+    this.update = function() {
+    ctx = myGameArea.context;
+    if (type == "image") {
+      ctx.drawImage(this.image, 
+        this.x, 
+        this.y,
+        this.width, this.height);
+    } else {
+      ctx.fillStyle = color;
+      ctx.fillRect(this.x, this.y, this.width, this.height);
+    }
+  }
+    }
+  
+    for (i = 0; i < myObstacles.length; i += 1) {
+        myObstacles[i].x += -1;
+        //myObstacles[i].y += -1;
+        myObstacles[i].update();
+    }
+    myScore.text="SCORE: " + myGameArea.frameNo;
+    myScore.update();
+    myGamePiece.newPos();
+    myGamePiece.update();
+}
+
+function everyinterval(n) {
+    if ((myGameArea.frameNo / n) % 1 == 0) {return true;}
+    return false;
+}
+//old controls
+// function accelerate(n) {
+//     myGamePiece.gravity = n;
+// }
+
+function moveup(e) {
+    // myGamePiece.image.src = "../images/gb_walk.png";
+    myGamePiece.speedY = -1; 
+}
+
+function movedown() {
+    myGamePiece.speedY = 1; 
+}
+
+function moveleft() {
+    myGamePiece.speedX = -1; 
+}
+
+function moveright() {
+    myGamePiece.speedX = 1; 
+}
+
+function clearmove(e) {
+    myGamePiece.speedX = 0; 
+    myGamePiece.speedY = 0; 
+}
+startGame();
+
+  //TO BE USED LATER TO ENABLE flapping up and down
+// function move(dir) {
+//     myGamePiece.image.src = "../images/pete.gif";
+//     if (dir == "up") {myGamePiece.speedY = -1; }
+//     if (dir == "down") {myGamePiece.speedY = 1; }
+// }
+
+// function clearmove() {
+//     myGamePiece.image.src = "../images/pirateslayer.gif";
+//     myGamePiece.speedX = 0; 
+//     myGamePiece.speedY = 0; 
+// }
+</script>
+<br>
+<!--old controls<button onmousedown="accelerate(-0.02)" onmouseup="accelerate(0.02)">ACCELERATE</button>-->
+<div style="text-align:center;width:320px;">
+  <button ontouchstart="moveup()" onmousedown="moveup()" onmouseup="clearmove()">UP</button><br><br>
+  <button ontouchstart="moveleft()" onmousedown="moveleft()" onmouseup="clearmove()">LEFT</button>
+  <button ontouchstart="moveright()" onmousedown="moveright()" onmouseup="clearmove()">RIGHT</button><br><br>
+  <button ontouchstart="movedown()" onmousedown="movedown()" onmouseup="clearmove()">DOWN</button>
+</div>
+</body>
+</html>
