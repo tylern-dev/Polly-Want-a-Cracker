@@ -5,7 +5,7 @@ function preload() {
     game.load.image('pirate_bay', 'assets/bg-full.gif');
     game.load.image('cracker', 'assets/cracker.png')
     game.load.spritesheet('parrot', 'assets/parrot.gif', 390, 525);
-    game.load.spritesheet('gun_pirate', 'assets/spritesheets/pirate1_resized.png', 390,390);
+    game.load.spritesheet('gun_pirate', 'assets/spritesheets/pirate1_resized.png',355, 470);
 
 
 }
@@ -15,6 +15,7 @@ var cursors;
 var player;
 var crackers;
 var groundPirate;
+var netPirates;
 
 var score = 0;
 var scoreText;
@@ -46,28 +47,36 @@ function create() {
     player.animations.add('up',[0,1], 10, true);
     player.animations.add('down',[0,1], 10, true);
 
-    //crackers group
-    crackers = game.add.group();
-    crackers.enableBody = true;
-    
-    //create n amount of crackers
-    for(var i =0; i<12; i++){
-        //create a cracker in the cracker group
-        var cracker = crackers.create(1000, i*70, 'cracker');
-        cracker.scale.setTo(0.08,0.08);
+    //crackers and pirate group
+    // crackers = game.add.group();
+    crackers = game.add.physicsGroup();
+    // netPirates = game.add.group();
 
-        cracker.body.gravity.x=-20;
-    }
+    // netPirates.enableBody = true;
+    crackers.enableBody = true;
+
+    // for(var i = 0; i < 9; i++){
+    //     var cracker = crackers.create(game.world.randomX, game.world.randomY, 'cracker');
+    //     cracker.body.velocity.x = game.rnd.between(100,300);
+        
+    // }
+
+
+    
+    //create n amount of crackers at random
+        // for(var i =0; i<15; i++){
+        //     //create a cracker in the cracker group
+        //     var cracker = crackers.create(500+game.world.randomX,game.world.randomY, 'cracker');
+        //     var netPirate = netPirates.create(game.world.randomX, game.world.randomY,)
+        //     cracker.scale.setTo(0.08,0.08);;
+        //     cracker.body.gravity.x=-20;
+        // }
+
 
     //GROUND PIRATE
-    groundPirates=game.add.group();
-    groundPirates.enableBody=true;
-
-    var groundPirate = groundPirates.create(1000, 300, 'gun_pirate')
-    groundPirate.scale.setTo(0.5,0.5);
-    groundPirate.animations.add('',[0,1,2,3], 10, true)
-    groundPirate.body.gravity.x = -30;
-
+    groundPirate = game.add.sprite(300,300,'gun_pirate');
+    groundPirate.animations.add('run');
+    groundPirate.animations.play('run')
 
     //score text
     scoreText = game.add.text(16,16, 'Score: 0', { fontSize: '32px', fill: '#000' });
@@ -99,7 +108,13 @@ function update() {
         player.animations.stop();
         player.frame = 4;
     }
+
+    groundPirate.x-=2;
+    if(groundPirate.x < -groundPirate.width){
+        groundPirate.x = game.world.width;
+    }
 }
+
 
 //cracker disapears
 function collectCracker(player, cracker){
