@@ -84,13 +84,13 @@ function create() {
 
     // }
 
-    /****************** TEST GROUND ***********************/
+    
     //random crackers on screen
     game.time.events.repeat(settings.crackerTimer, settings.crackersOnScreen, createCracker, this);
 
     //random sky pirates on screen
     game.time.events.repeat(settings.skyPirateTimer, settings.skyPiratesOnScreen, createSkyPirate, this);
-    /* ************************************************** */
+   
 
 
     
@@ -154,6 +154,7 @@ function update() {
     if(groundPirate.x < -groundPirate.width){
         groundPirate.x = game.world.width;
     }
+
     //animate forward scrolling of background
     background.x -= 2;
     
@@ -190,6 +191,7 @@ function collectCracker(player, cracker){
     scoreText.text = `Score: ${score}`
 }
 
+//game ends when player get caught by pirate
 function parrotCaught(player, skyPirate){
     player.kill();
     game.destroy();
