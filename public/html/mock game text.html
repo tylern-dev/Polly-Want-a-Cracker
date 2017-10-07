@@ -35,10 +35,10 @@ canvas : document.createElement("canvas"),
         this.context = this.canvas.getContext("2d");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.frameNo = 0;
-        //this.interval = setInterval(updateGameArea, 20);
-        //this.interval2 = setInterval(otherGameArea, 20);
-        this.interval3 = setInterval(topCrackersGameArea, 20);
-        this.interval4 = setInterval(bottomCrackersGameArea, 20);
+        this.interval = setInterval(updateGameArea, 20);
+        this.interval2 = setInterval(otherGameArea, 20);
+        //this.interval3 = setInterval(topCrackersGameArea, 20);
+        //this.interval4 = setInterval(bottomCrackersGameArea, 20);
         
         },
     clear : function() {
