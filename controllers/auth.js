@@ -24,6 +24,11 @@ module.exports = function(app, passport){
         failureRedirect: '/signin'
     }))
 
+    // 404 page route
+    app.get('*', function(req, res){
+        res.render('404');
+      });
+
     //protects the dashboard route
     function isLoggedIn(req, res, next){
         if(req.isAuthenticated()) {
