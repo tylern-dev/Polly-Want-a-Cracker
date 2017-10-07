@@ -11,6 +11,7 @@ exports.signin = function(req, res){
 exports.dashboard = function(req, res){
     console.log(req.user)
     res.render('dashboard', req.user)
+
 }
 
 exports.logout = function(req, res){
