@@ -1,4 +1,4 @@
-var game = new Phaser.Game(1100, 750, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+var game = new Phaser.Game(1100, 750, Phaser.AUTO, '', { preload: preload, create: create, update: update});
 
 function preload() {
 
@@ -20,6 +20,7 @@ var player;
 var crackers;
 var groundPirate;
 var skyPirates;
+var skyPirate;
 var background;
 
 
@@ -54,6 +55,7 @@ function create() {
     //create parrot and set scaling (x,y, 'sprite name')
     player = game.add.sprite(0, 150, 'parrot');
     player.scale.setTo(0.25, 0.25);
+   
 
     //parrot physics
     game.physics.arcade.enable(player);
@@ -77,12 +79,6 @@ function create() {
     skyPirates.enableBody = true;
 
 
-    // for(var i = 0; i < 9; i++){
-    //     var cracker = crackers.create(game.world.randomX, game.world.randomY, 'cracker');
-    //     cracker.body.velocity.x = game.rnd.between(100,300);
-        
-
-    // }
 
     
     //random crackers on screen
@@ -91,19 +87,6 @@ function create() {
     //random sky pirates on screen
     game.time.events.repeat(settings.skyPirateTimer, settings.skyPiratesOnScreen, createSkyPirate, this);
    
-
-
-    
-    //create n amount of crackers at random
-    // for(var i =0; i<15; i++){
-    //     //create a cracker in the cracker group
-    //     var cracker = crackers.create(500+game.world.randomX,game.world.randomY, 'cracker');
-    //     // var netPirate = skyPirates.create(game.world.randomX, game.world.randomY,)
-    //     cracker.scale.setTo(0.08,0.08);;
-    //     cracker.body.gravity.x=-20;
-    // }
-
-
     //GROUND PIRATE
     groundPirate = game.add.sprite(300,300,'gun_pirate');
     groundPirate.animations.add('run');
@@ -163,12 +146,16 @@ function update() {
         background.x = game.world.width;
 
     }
+    
 }
+
+
 
 //creates cracker on screen
 function createCracker(){
     var cracker = crackers.create(700+game.world.randomX,30+game.world.randomY, 'cracker');
     cracker.scale.setTo(0.1,0.1);
+
     // game.add.tween(cracker).to( {x: 0}, 3000, Phaser.Easing.Linear.None, true);
     cracker.body.gravity.x=game.rnd.integerInRange(-35, -10);
     
@@ -176,9 +163,16 @@ function createCracker(){
 
 //creates skyPirate on screen
 function createSkyPirate(){
-    var skyPirate = skyPirates.create(800+game.world.randomX, game.world.randomY, 'sky_pirate');
-    skyPirate.scale.setTo(0.4, 0.4);
+    skyPirate = skyPirates.create(800+game.world.randomX, game.world.randomY, 'sky_pirate');
+    skyPirate.scale.setTo(0.5, 0.5);
+    
+    skyPirate.body.setSize(100,300,100,100)
     skyPirate.body.gravity.x= game.rnd.integerInRange(-35, -10)
+
+
+    
+
+    
 }
 
 
@@ -194,7 +188,8 @@ function collectCracker(player, cracker){
 //game ends when player get caught by pirate
 function parrotCaught(player, skyPirate){
     player.kill();
-    game.destroy();
+
+
     //display modal with player score
     console.log(score)
 

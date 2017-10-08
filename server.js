@@ -32,7 +32,7 @@ app.use(passport.session()); //persistent login sessions
 // routes
 // require('./controllers/api-routes.js')(app);
 //imported from my passport files
-require("./controllers/api-route.js")(app);
+require("./controllers/html-routes.js")(app);
 require('./controllers/auth.js')(app,passport);
 
 // load passport strategies
@@ -45,7 +45,7 @@ app.set('view engine', 'handlebars');
 
 
 //sync the DB and start the app
-models.sequelize.sync({force:true}).then(function(){
+models.sequelize.sync().then(function(){
     app.listen(PORT, function(){
         console.log(`Listening on port ${PORT}`)
     });
