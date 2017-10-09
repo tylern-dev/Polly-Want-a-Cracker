@@ -1,14 +1,15 @@
-<div class="container">
+<div class="container"> 
     <div class="col-md-12">
         <nav class="nav">
             <a class="nav-link" href="/">Home</a>
-            <a class="nav-link" href="/signup">Signup</a>
+            <a class="nav-link" href="/logout">Logout</a>
         </nav>
+            
     </div>
     <div class="header-container ">
         <img class="header-game-page" src="/images/web-img/header_1.png">
     </div>
-    <div id="game-viewport"></div>
+    <div id="game-viewport" data-name="{{firstname}}" data-id={{id}} data-character="{{character}}"></div>
     <script src="/scripts/game.js"></script>
     <div class="footer ">
         <div class="container">
@@ -16,3 +17,4 @@
         </div>
     </div>
 </div>
+

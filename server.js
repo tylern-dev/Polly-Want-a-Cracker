@@ -12,7 +12,7 @@ var PORT = process.env.PORT || 3000;
 // initiate app
 var app = express();
 
-// models brought in from passport file
+// models brought in from sequelize setup file
 var models = require(path.join(__dirname,'./models/index.js'));
 
 //use public folder with css and scripts
@@ -29,14 +29,17 @@ app.use(session({secret: 'keyboard cat',resave: true, saveUninitialized:true}));
 app.use(passport.initialize());
 app.use(passport.session()); //persistent login sessions
 
-// routes
-// require('./controllers/api-routes.js')(app);
+/**** ROUTES ****/
+
 //imported from my passport files
 require("./controllers/html-routes.js")(app);
-require('./controllers/auth.js')(app,passport);
 
 //posting scores with routes and passport
-require("./controllers/scores.js")(app, passport);
+require("./controllers/scores-routes.js")(app);
+
+require('./controllers/auth.js')(app,passport);
+
+/* *************** */
 
 
 // load passport strategies

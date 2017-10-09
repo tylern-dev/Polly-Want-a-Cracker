@@ -9,9 +9,6 @@ function preload() {
     game.load.spritesheet('gun_pirate', 'assets/spritesheets/pirate1_resized.png',355, 470);
     game.load.spritesheet('sky_pirate', 'assets/spritesheets/balloon2_sprite.png',260,440)
 
- 
-
-
 }
 
 var platforms;
@@ -196,12 +193,19 @@ function parrotCaught(player, skyPirate){
 
 }
 
+//Posts the score to the DB
 function postScore(score){
+    var scoreData = {
+        score: score
+    }
     $.ajax({
         type:"POST",
         url: "/game-score",
-        data: score
+        data: scoreData
     })
 }
 
-
+/* TO DO: */
+// tie score to user
+// create highscores page and query data
+// retrieve data from html page and set the character

@@ -9,8 +9,5 @@ module.exports = function(app){
         res.render('index');
     })
 
-    app.get('/game', function(req, res){
-        
-        res.render('game');
-    })
+    
 }

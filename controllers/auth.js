@@ -24,6 +24,12 @@ module.exports = function(app, passport){
         failureRedirect: '/signin'
     }));
 
+    //game render if user logged in
+    app.get('/game', isLoggedIn, function(req, res){
+        
+        res.render('game', req.user);
+    })
+
     app.post("/game-score", function(req, res){
         
     })
