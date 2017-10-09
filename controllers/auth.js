@@ -6,7 +6,7 @@ module.exports = function(app, passport){
     app.get('/signin', authController.signin);
 
     app.post('/signup', passport.authenticate('local-signup', {
-        successRedirect: '/dashboard',
+        successRedirect: '/game',
 
         failureRedirect: '/signup'
     }));
@@ -19,10 +19,14 @@ module.exports = function(app, passport){
 
     //route for posting to signin
     app.post('/signin', passport.authenticate('local-signin', {
-        successRedirect: '/dashboard',
+        successRedirect: '/game',
 
         failureRedirect: '/signin'
-    }))
+    }));
+
+    app.post("/game-score", function(req, res){
+        
+    })
 
     // 404 page route
     app.get('*', function(req, res){

@@ -1,4 +1,4 @@
-var game = new Phaser.Game(1100, 750, Phaser.AUTO, '', { preload: preload, create: create, update: update});
+var game = new Phaser.Game(1110, 750, Phaser.AUTO, 'game-viewport', { preload: preload, create: create, update: update});
 
 function preload() {
 
@@ -28,9 +28,9 @@ var score = 0;
 var scoreText;
 
  var settings = {
-     crackerTimer: 2000,
+     crackerTimer: 2000, //seconds
      crackersOnScreen: 100,
-     skyPirateTimer: 3000,
+     skyPirateTimer: 3000, //seconds
      skyPiratesOnScreen: 100
  }
 
@@ -166,8 +166,8 @@ function createSkyPirate(){
     skyPirate = skyPirates.create(800+game.world.randomX, game.world.randomY, 'sky_pirate');
     skyPirate.scale.setTo(0.5, 0.5);
     
-    skyPirate.body.setSize(100,300,100,100)
-    skyPirate.body.gravity.x= game.rnd.integerInRange(-35, -10)
+    // skyPirate.body.setSize(100,300,100,100)
+    skyPirate.body.gravity.x= game.rnd.integerInRange(-40, -15)
 
 
     
@@ -192,7 +192,16 @@ function parrotCaught(player, skyPirate){
 
     //display modal with player score
     console.log(score)
+    postScore(score)
 
+}
+
+function postScore(score){
+    $.ajax({
+        type:"POST",
+        url: "/game-score",
+        data: score
+    })
 }
 
 

@@ -35,6 +35,10 @@ app.use(passport.session()); //persistent login sessions
 require("./controllers/html-routes.js")(app);
 require('./controllers/auth.js')(app,passport);
 
+//posting scores with routes and passport
+require("./controllers/scores.js")(app, passport);
+
+
 // load passport strategies
 require('./config/passport/passport.js')(passport, models.user)
 

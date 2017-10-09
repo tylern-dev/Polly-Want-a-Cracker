@@ -1,76 +1,84 @@
-<div class="col-md-12">
-    <nav class="nav">
-        <a class="nav-link" href="/">Home</a>
-        <a class="nav-link" href="/signin">Login</a>
-    </nav>
-</div>
-<!--NAV END-->
+<div class="container">
+    <div class="wrapper">
 
-<!--Jumbotron START-->
-<div class="jumbotron jumbotron-fluid" id="headImage">
+        <div class="col-md-12">
+            <nav class="nav">
+                <a class="nav-link" href="/">Home</a>
+                <a class="nav-link" href="/signin">Login</a>
+            </nav>
+        </div>
+        <!--NAV END-->
 
-</div>
-<!--Jumbotron END-->
+    <div class="header-container">
+        <img class="header" src="/images/web-img/header_1.png">
+    </div>
 
-<!--Start of Form-->
-<div class="row">
-    <div class="col-md-7 mx-auto">
-        <div class="card" id="signUp">
-            <h2>Create a player</h2>
-            <form id="register-form" method="POST" action="/signup">
-                <div class="form-group">
-                    <label for="first-name">First Name</label>
-                    <input type="name" class="form-control" id="first-name" placeholder="First Name" name="firstname">
-                </div>
-
-                <div class="form-group">
-                    <label for="last-name">Last Name</label>
-                    <input type="name" class="form-control" id="last-name" placeholder="last Name" name="lastname">
-                </div>
-
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" class="form-control" id="email" placeholder="name@email.com" name="email">
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control" id="password" name="password">
-                </div>
-
-                <div class="form-group">
-                    <label for="charSelect">Choose Your Character:</label>
-                    <div class="row">
-                        <div class="col-md-9">
-
-                            <input type="radio" value="parrot1" name="parrotselect" id="parrot1">
-                            <label for="parrot1">
-                                <img src="/images/polly.gif" class="img-responsive parrot-select"
-                            alt="parrot1">
-                            </label>
-
-                            <input type="radio" value="parrot2" name="parrotselect" id="parrot2">
-                            <label for="parrot2">
-                            <img src="/images/pete.gif" class="img-responsive parrot-select"
-                            alt="parrot2">
-                            </label>
-
-                            <input type="radio" value="parrot3" name="parrotselect" id="parrot3">
-                            <label for="parrot3">
-                                <img src="/images/pauline.gif" class="img-responsive parrot-select"
-                            alt="parrot3">
-                             </label>
-
-                            <input type="radio" value="parrot4" name="parrotselect" id="parrot4">
-                            <label for="parrot4">
-                                <img src="/images/pirateslayer.gif" class="img-responsive parrot-select"
-                            alt="parrot4">
-                        </label>
+        <!--Start of Form-->
+        <div class="row">
+            <div class="col-md-7 form-container">
+                <div class="card" id="signUp">
+                    <h2>Create a player</h2>
+                    <form id="register-form" method="POST" action="/signup">
+                        <div class="form-group">
+                            <label for="first-name">First Name</label>
+                            <input type="name" class="form-control" id="first-name" placeholder="First Name" name="firstname">
                         </div>
-                    </div>
-                    <button type="submit" id="submit-btn">Play!</button>
-            </form>
+
+                        <div class="form-group">
+                            <label for="last-name">Last Name</label>
+                            <input type="name" class="form-control" id="last-name" placeholder="last Name" name="lastname">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" id="email" placeholder="name@email.com" name="email">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" id="password" name="password">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="charSelect">Choose Your Character:</label>
+                            <div class="row">
+                                <div class="col-md-9">
+
+                                    <input type="radio" value="parrot1" name="parrotselect" id="parrot1">
+                                    <label for="parrot1">
+                                        <img src="/images/polly.gif" class="img-responsive parrot-select"
+                                    alt="parrot1">
+                                    </label>
+
+                                    <input type="radio" value="parrot2" name="parrotselect" id="parrot2">
+                                    <label for="parrot2">
+                                    <img src="/images/pete.gif" class="img-responsive parrot-select"
+                                    alt="parrot2">
+                                    </label>
+
+                                    <input type="radio" value="parrot3" name="parrotselect" id="parrot3">
+                                    <label for="parrot3">
+                                        <img src="/images/pauline.gif" class="img-responsive parrot-select"
+                                    alt="parrot3">
+                                    </label>
+
+                                    <input type="radio" value="parrot4" name="parrotselect" id="parrot4">
+                                    <label for="parrot4">
+                                        <img src="/images/pirateslayer.gif" class="img-responsive parrot-select"
+                                    alt="parrot4">
+                                </label>
+                                </div>
+                            </div>
+                        <button type="submit" id="submit-btn">Play!</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 
+<div class="footer ">
+    <div class="container">
+        <p>&copy 2017 Polly Want a Cracker the Game</p>
+    </div>
+</div>
+</div>
     <script src="/scripts/signupScript.js"></script>
