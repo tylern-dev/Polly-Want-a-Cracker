@@ -1,18 +1,24 @@
-var game = new Phaser.Game(1100, 750, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+var playerName = $("#game-viewport").data("name");
+var playerCharacter = $("#game-viewport").data("character");
+var playerID = $("#game-viewport").data("id");
+
+
+var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game-viewport', { preload: preload, create: create, update: update});
 
 function preload() {
 
     game.load.image('pirate_bay', 'assets/bg-full.gif');
     game.load.image('cracker', 'assets/cracker.png')
 
-    game.load.spritesheet('parrot', 'assets/parrot.gif', 390, 525);
+    game.load.spritesheet('parrot1', 'assets/parrot.gif', 390, 525);
+    //game.load.spritesheet('parrot2', 'assets/parrot.gif', 390, 525);
+    //game.load.spritesheet('parrot3', 'assets/parrot.gif', 390, 525);
+    //game.load.spritesheet('parrot4', 'assets/parrot.gif', 390, 525);
     game.load.spritesheet('gun_pirate', 'assets/spritesheets/pirate1_resized.png',355, 470);
     game.load.spritesheet('sky_pirate', 'assets/spritesheets/balloon2_sprite.png',260,440)
 
- 
-
-
 }
+
 
 var platforms;
 var cursors;
@@ -20,6 +26,7 @@ var player;
 var crackers;
 var groundPirate;
 var skyPirates;
+var skyPirate;
 var background;
 
 
@@ -27,11 +34,12 @@ var score = 0;
 var scoreText;
 
  var settings = {
-     crackerTimer: 2000,
+     crackerTimer: 2000, //seconds
      crackersOnScreen: 100,
-     skyPirateTimer: 3000,
+     skyPirateTimer: 3000, //seconds
      skyPiratesOnScreen: 100
  }
+
 
 function create() {
 
@@ -51,9 +59,10 @@ function create() {
     //  true means it will loop when it finishes
     background.animations.play('run', 0, true);
 
-    //create parrot and set scaling (x,y, 'sprite name')
-    player = game.add.sprite(0, 150, 'parrot');
+    //create parrot and set scaling (x,y, 'sprite name') using the Player's character
+    player = game.add.sprite(0, 150, playerCharacter);
     player.scale.setTo(0.25, 0.25);
+   
 
     //parrot physics
     game.physics.arcade.enable(player);
@@ -77,12 +86,6 @@ function create() {
     skyPirates.enableBody = true;
 
 
-    // for(var i = 0; i < 9; i++){
-    //     var cracker = crackers.create(game.world.randomX, game.world.randomY, 'cracker');
-    //     cracker.body.velocity.x = game.rnd.between(100,300);
-        
-
-    // }
 
     
     //random crackers on screen
@@ -91,19 +94,6 @@ function create() {
     //random sky pirates on screen
     game.time.events.repeat(settings.skyPirateTimer, settings.skyPiratesOnScreen, createSkyPirate, this);
    
-
-
-    
-    //create n amount of crackers at random
-    // for(var i =0; i<15; i++){
-    //     //create a cracker in the cracker group
-    //     var cracker = crackers.create(500+game.world.randomX,game.world.randomY, 'cracker');
-    //     // var netPirate = skyPirates.create(game.world.randomX, game.world.randomY,)
-    //     cracker.scale.setTo(0.08,0.08);;
-    //     cracker.body.gravity.x=-20;
-    // }
-
-
     //GROUND PIRATE
     groundPirate = game.add.sprite(300,300,'gun_pirate');
     groundPirate.animations.add('run');
@@ -163,12 +153,16 @@ function update() {
         background.x = game.world.width;
 
     }
+    
 }
+
+
 
 //creates cracker on screen
 function createCracker(){
     var cracker = crackers.create(700+game.world.randomX,30+game.world.randomY, 'cracker');
     cracker.scale.setTo(0.1,0.1);
+
     // game.add.tween(cracker).to( {x: 0}, 3000, Phaser.Easing.Linear.None, true);
     cracker.body.gravity.x=game.rnd.integerInRange(-35, -10);
     
@@ -176,9 +170,16 @@ function createCracker(){
 
 //creates skyPirate on screen
 function createSkyPirate(){
-    var skyPirate = skyPirates.create(800+game.world.randomX, game.world.randomY, 'sky_pirate');
-    skyPirate.scale.setTo(0.4, 0.4);
-    skyPirate.body.gravity.x= game.rnd.integerInRange(-35, -10)
+    skyPirate = skyPirates.create(800+game.world.randomX, game.world.randomY, 'sky_pirate');
+    skyPirate.scale.setTo(0.5, 0.5);
+    
+    // skyPirate.body.setSize(100,300,100,100)
+    skyPirate.body.gravity.x= game.rnd.integerInRange(-40, -15)
+
+
+    
+
+    
 }
 
 
@@ -194,10 +195,31 @@ function collectCracker(player, cracker){
 //game ends when player get caught by pirate
 function parrotCaught(player, skyPirate){
     player.kill();
-    game.destroy();
+
+
     //display modal with player score
     console.log(score)
+    postScore(score, playerID)
 
 }
 
 
+
+//Posts the score to the DB
+function postScore(score, playerID){
+    var scoreData = {
+        score: score,
+        userId: playerID,
+    }
+
+    $.ajax({
+        type:"POST",
+        url: "/api/score",
+        data: scoreData
+    })
+}
+
+/* TO DO: */
+
+// create highscores page and query data
+// dashboard to update player info?
