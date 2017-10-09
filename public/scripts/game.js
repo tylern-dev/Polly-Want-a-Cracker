@@ -1,15 +1,24 @@
-var game = new Phaser.Game(1110, 750, Phaser.AUTO, 'game-viewport', { preload: preload, create: create, update: update});
+var playerName = $("#game-viewport").data("name");
+var playerCharacter = $("#game-viewport").data("character");
+var playerID = $("#game-viewport").data("id");
+
+
+var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game-viewport', { preload: preload, create: create, update: update});
 
 function preload() {
 
     game.load.image('pirate_bay', 'assets/bg-full.gif');
     game.load.image('cracker', 'assets/cracker.png')
 
-    game.load.spritesheet('parrot', 'assets/parrot.gif', 390, 525);
+    game.load.spritesheet('parrot1', 'assets/parrot.gif', 390, 525);
+    //game.load.spritesheet('parrot2', 'assets/parrot.gif', 390, 525);
+    //game.load.spritesheet('parrot3', 'assets/parrot.gif', 390, 525);
+    //game.load.spritesheet('parrot4', 'assets/parrot.gif', 390, 525);
     game.load.spritesheet('gun_pirate', 'assets/spritesheets/pirate1_resized.png',355, 470);
     game.load.spritesheet('sky_pirate', 'assets/spritesheets/balloon2_sprite.png',260,440)
 
 }
+
 
 var platforms;
 var cursors;
@@ -31,6 +40,7 @@ var scoreText;
      skyPiratesOnScreen: 100
  }
 
+
 function create() {
 
     //  We're going to be using physics, so enable the Arcade Physics system
@@ -49,8 +59,8 @@ function create() {
     //  true means it will loop when it finishes
     background.animations.play('run', 0, true);
 
-    //create parrot and set scaling (x,y, 'sprite name')
-    player = game.add.sprite(0, 150, 'parrot');
+    //create parrot and set scaling (x,y, 'sprite name') using the Player's character
+    player = game.add.sprite(0, 150, playerCharacter);
     player.scale.setTo(0.25, 0.25);
    
 
@@ -189,23 +199,27 @@ function parrotCaught(player, skyPirate){
 
     //display modal with player score
     console.log(score)
-    postScore(score)
+    postScore(score, playerID)
 
 }
 
+
+
 //Posts the score to the DB
-function postScore(score){
+function postScore(score, playerID){
     var scoreData = {
-        score: score
+        score: score,
+        userId: playerID,
     }
+
     $.ajax({
         type:"POST",
-        url: "/game-score",
+        url: "/api/score",
         data: scoreData
     })
 }
 
 /* TO DO: */
-// tie score to user
+
 // create highscores page and query data
-// retrieve data from html page and set the character
+// dashboard to update player info?

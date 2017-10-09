@@ -28,11 +28,8 @@ module.exports = function(app, passport){
     app.get('/game', isLoggedIn, function(req, res){
         
         res.render('game', req.user);
-    })
+    });
 
-    app.post("/game-score", function(req, res){
-        
-    })
 
     // 404 page route
     app.get('*', function(req, res){
@@ -42,9 +39,9 @@ module.exports = function(app, passport){
     //protects the dashboard route
     function isLoggedIn(req, res, next){
         if(req.isAuthenticated()) {
-            return next()
+            return next();
         } else {
-            res.redirect('/signin')
+            res.redirect('/signin');
         }
     }
 
