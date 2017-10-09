@@ -1,11 +1,21 @@
 
-.container{
-	background-color: black;
-	background-image:url("../images/backgroundHome.gif");
+/* .non-game{
+
 	background-repeat: no-repeat;
 	padding-bottom: 25%;
 	
+} */
 
+.wrapper{
+	background-image: url("../images/web-img/homepage_bkg_new.jpg");
+	background-size: 100%;
+	background-repeat: no-repeat;
+
+}
+
+.header{
+	margin-top: 40px;
+	width: 70%;
 	
 }
 
