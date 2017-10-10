@@ -164,19 +164,18 @@ function createCracker(){
     cracker.scale.setTo(0.1,0.1);
 
     // game.add.tween(cracker).to( {x: 0}, 3000, Phaser.Easing.Linear.None, true);
-    cracker.body.gravity.x=game.rnd.integerInRange(-35, -10);
+    cracker.body.gravity.x = game.rnd.integerInRange(-35, -10);
+    
     
 }
 
 //creates skyPirate on screen
 function createSkyPirate(){
     skyPirate = skyPirates.create(800+game.world.randomX, game.world.randomY, 'sky_pirate');
-    skyPirate.scale.setTo(0.5, 0.5);
+    skyPirate.scale.set(0.3, 0.3);
     
     // skyPirate.body.setSize(100,300,100,100)
-    skyPirate.body.gravity.x= game.rnd.integerInRange(-40, -15)
-
-
+    skyPirate.body.gravity.x = game.rnd.integerInRange(-60, -20)
     
 
     

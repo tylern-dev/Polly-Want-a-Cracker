@@ -68,3 +68,12 @@
 	margin-bottom: 150px;
 }
 
+/* This automatically auto increments number for the scores table */
+table{
+	counter-reset:section;
+}
+
+.counter:before{
+	counter-increment:section;
+	content:counter(section);
+}

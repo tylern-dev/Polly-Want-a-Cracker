@@ -14,8 +14,20 @@ module.exports = function(app){
         });
     });
 
-    app.get('/api/score', function(req, res){
-        
-    })
+    app.get('/score', function(req, res){
+        db.score.findAll({
+            order:[['score', 'DESC']],
+            include:[
+                {
+                    //this will only send back the first name with the include from the user db. W/O it, it would send everything
+                    model: db.user,
+                    attributes: ["firstname"] 
+                }
+            ]
+        }).then(function(result){
+            // res.json(result);
+            res.render('scores', {data: result})
+        });
+    });
 
 }

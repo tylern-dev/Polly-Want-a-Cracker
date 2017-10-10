@@ -20,7 +20,4 @@ exports.logout = function(req, res){
     })
 }
 
-exports.scores = function(req, res){
-    res.render('scores')
-}
 
