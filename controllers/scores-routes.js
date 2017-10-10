@@ -14,9 +14,11 @@ module.exports = function(app){
         });
     });
 
-    app.get('/score', function(req, res){
+
+    app.get('/scores', function(req, res){
         db.score.findAll({
             order:[['score', 'DESC']],
+            limit: 20,
             include:[
                 {
                     //this will only send back the first name with the include from the user db. W/O it, it would send everything
@@ -25,8 +27,29 @@ module.exports = function(app){
                 }
             ]
         }).then(function(result){
-            // res.json(result);
-            res.render('scores', {data: result})
+            // res.json(req.user);
+            res.render('scores', {data: result, user: req.user})
+        });
+    });
+
+
+    //retrieves score for user that is logged in
+    app.get('/api/scores/:player', function(req, res){
+        db.score.findAll({
+            order: [['score', 'DESC']],
+            limit: 20,
+            where: {
+                userId: req.params.player,
+            },
+            include: [
+                {
+                    model: db.user,
+                    attributes: ["firstname"]
+                }
+            ]
+            
+        }).then(function(result){
+            res.json(result);
         });
     });
 
