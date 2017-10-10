@@ -14,7 +14,7 @@ function preload() {
     //game.load.spritesheet('parrot2', 'assets/parrot.gif', 390, 525);
     //game.load.spritesheet('parrot3', 'assets/parrot.gif', 390, 525);
     //game.load.spritesheet('parrot4', 'assets/parrot.gif', 390, 525);
-    game.load.spritesheet('gun_pirate', 'assets/spritesheets/pirate1_resized.png',355, 470);
+    //game.load.spritesheet('gun_pirate', 'assets/spritesheets/pirate1_resized.png',355, 470);
     game.load.spritesheet('sky_pirate', 'assets/spritesheets/balloon2_sprite.png',260,440)
 
 }
@@ -61,7 +61,7 @@ function create() {
 
     //create parrot and set scaling (x,y, 'sprite name') using the Player's character
     player = game.add.sprite(0, 150, playerCharacter);
-    player.scale.setTo(0.25, 0.25);
+    player.scale.setTo(0.2, 0.2);
    
 
     //parrot physics
@@ -94,10 +94,10 @@ function create() {
     //random sky pirates on screen
     game.time.events.repeat(settings.skyPirateTimer, settings.skyPiratesOnScreen, createSkyPirate, this);
    
-    //GROUND PIRATE
-    groundPirate = game.add.sprite(300,300,'gun_pirate');
-    groundPirate.animations.add('run');
-    groundPirate.animations.play('run')
+    // //GROUND PIRATE
+    // groundPirate = game.add.sprite(300,300,'gun_pirate');
+    // groundPirate.animations.add('run');
+    // groundPirate.animations.play('run')
 
     //score text
     scoreText = game.add.text(16,16, 'Score: 0', { fontSize: '32px', fill: '#000' });
@@ -192,7 +192,7 @@ function collectCracker(player, cracker){
     scoreText.text = `Score: ${score}`
 }
 
-//game ends when player get caught by pirate
+//game ends when player gets caught by pirate
 function parrotCaught(player, skyPirate){
     player.kill();
 
