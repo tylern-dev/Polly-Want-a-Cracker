@@ -146,11 +146,11 @@ function update() {
     }
 
 
-    groundPirate.x-=5;
-    if(groundPirate.x < -groundPirate.width){
-        groundPirate.x = game.world.width;
-    }
 
+    // groundPirate.x-=5;
+    // if(groundPirate.x < -groundPirate.width){
+    //     groundPirate.x = game.world.width;
+    // }
 
 
     //animate forward scrolling of background
@@ -162,6 +162,7 @@ function update() {
 
     }
     
+
 }
 
 
@@ -189,6 +190,7 @@ function createSkyPirate(){
 
     
 }
+
 
 
 //cracker disapears when player hits it
