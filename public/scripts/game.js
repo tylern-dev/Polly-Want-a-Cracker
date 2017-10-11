@@ -17,7 +17,7 @@ function preload() {
     game.load.spritesheet('parrot4', 'assets/redbirdsprite.png', 390, 525);
     game.load.spritesheet('sky_pirate', 'assets/spritesheets/balloon2_sprite.png',260,440)
 
-    game.load.audio('pirate-song', 'pirate-song.mp3');
+    game.load.audio('pirate-song', ['assets/pirate-song.mp3']);
     
     
 
@@ -51,8 +51,8 @@ function create() {
     //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
+    // music load
     music = game.add.audio('pirate-song');
-    
     music.play();
 
     //  A simple background for our game
@@ -186,7 +186,14 @@ function createSkyPirate(){
     // skyPirate.body.setSize(100,300,100,100)
     skyPirate.body.gravity.x = game.rnd.integerInRange(-60, -20)
     
-
+    //  Here we add a new animation called 'walk'
+    //  Because we didn't give any other parameters it's going to make an animation from all available frames in the 'mummy' sprite sheet
+    var walk = skyPirate.animations.add('walk');
+    
+    //  And this starts the animation playing by using its key ("walk")
+    //  30 is the frame rate (30fps)
+    //  true means it will loop when it finishes
+    skyPirate.animations.play('walk', 3, true);
     
 }
 
