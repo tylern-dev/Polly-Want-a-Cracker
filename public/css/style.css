@@ -68,3 +68,30 @@
 	margin-bottom: 150px;
 }
 
+/* This automatically auto increments number for the scores table */
+table{
+	counter-reset:section;
+}
+
+.counter:before{
+	counter-increment:section;
+	content:counter(section);
+}
+.global-scores, .player-table{
+	background-color: rgba(200,200,200,0.9);
+}
+
+.table-heading{
+	background-color: #1E0824;
+	color: #fefefe;
+	padding: 10px;
+}
+
+.menu{
+	width: 40%;
+	height: 50%;
+	margin-left: 9%;
+
+	background-color: black;
+	position: absolute;
+}

@@ -5,5 +5,9 @@ module.exports = function(sequelize, DataType){
         }
     });
 
+    Score.associate = function(models){
+        Score.belongsTo(models.user);
+    }
+
     return Score;
 }

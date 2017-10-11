@@ -46,6 +46,7 @@ require('./controllers/auth.js')(app,passport);
 require('./config/passport/passport.js')(passport, models.user)
 
 // express-handlebars engine
+
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 

@@ -9,20 +9,25 @@ function preload() {
 
     game.load.image('pirate_bay', 'assets/bg-full.gif');
     game.load.image('cracker', 'assets/cracker.png')
+    game.load.image('button', 'assets/restart-button.gif', 150, 45);
 
 
     game.load.spritesheet('parrot1', 'assets/parrot.gif', 390, 525);
-    //game.load.spritesheet('parrot2', 'assets/parrot.gif', 390, 525);
-    //game.load.spritesheet('parrot3', 'assets/parrot.gif', 390, 525);
-    //game.load.spritesheet('parrot4', 'assets/parrot.gif', 390, 525);
-    //game.load.spritesheet('gun_pirate', 'assets/spritesheets/pirate1_resized.png',355, 470);
+
+    game.load.spritesheet('parrot2', 'assets/yellowbirdsprite.png', 390, 525);
+    game.load.spritesheet('parrot3', 'assets/greenbirdsprite.png', 390, 525);
+    game.load.spritesheet('parrot4', 'assets/redbirdsprite.png', 390, 525);
     game.load.spritesheet('sky_pirate', 'assets/spritesheets/balloon2_sprite.png',260,440)
+
+    game.load.audio('pirate-song', ['assets/pirate-song.mp3']);
+    
+    
 
 
 }
 
 
-var platforms;
+var music;
 var cursors;
 var player;
 var crackers;
@@ -30,7 +35,8 @@ var groundPirate;
 var skyPirates;
 var skyPirate;
 var background;
-
+var button;
+var birdDead = false;
 
 var score = 0;
 var scoreText;
@@ -48,6 +54,10 @@ function create() {
     //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
+    // music load
+    music = game.add.audio('pirate-song');
+    music.play();
+
     //  A simple background for our game
     background = game.add.sprite(-200, 0, 'pirate_bay');
     // scales the background
@@ -61,6 +71,8 @@ function create() {
     //  true means it will loop when it finishes
 
     background.animations.play('run', 0, true);
+    
+    button = game.add.button(20, 50, 'button', actionOnClick, this, 2, 1, 0);
 
 
     //create parrot and set scaling (x,y, 'sprite name') using the Player's character
@@ -99,10 +111,6 @@ function create() {
     //random sky pirates on screen
     game.time.events.repeat(settings.skyPirateTimer, settings.skyPiratesOnScreen, createSkyPirate, this);
    
-    // //GROUND PIRATE
-    // groundPirate = game.add.sprite(300,300,'gun_pirate');
-    // groundPirate.animations.add('run');
-    // groundPirate.animations.play('run')
 
 
     //score text
@@ -110,7 +118,7 @@ function create() {
 
     //parrot controls
     cursors = game.input.keyboard.createCursorKeys();
-    
+
 }
 
 
@@ -147,11 +155,6 @@ function update() {
 
 
 
-    // groundPirate.x-=5;
-    // if(groundPirate.x < -groundPirate.width){
-    //     groundPirate.x = game.world.width;
-    // }
-
 
     //animate forward scrolling of background
     background.x -= 2;
@@ -165,6 +168,10 @@ function update() {
 
 }
 
+// function createButton(){
+//     button = game.add.button(game.world.centerX - 95, 400, 'button', actionOnClick, this, 2, 1, 0);
+    
+// }
 
 
 //creates cracker on screen
@@ -173,21 +180,27 @@ function createCracker(){
     cracker.scale.setTo(0.1,0.1);
 
     // game.add.tween(cracker).to( {x: 0}, 3000, Phaser.Easing.Linear.None, true);
-    cracker.body.gravity.x=game.rnd.integerInRange(-35, -10);
+    cracker.body.gravity.x = game.rnd.integerInRange(-35, -10);
+    
     
 }
 
 //creates skyPirate on screen
 function createSkyPirate(){
     skyPirate = skyPirates.create(800+game.world.randomX, game.world.randomY, 'sky_pirate');
-    skyPirate.scale.setTo(0.5, 0.5);
+    skyPirate.scale.set(0.3, 0.3);
     
     // skyPirate.body.setSize(100,300,100,100)
-    skyPirate.body.gravity.x= game.rnd.integerInRange(-40, -15)
-
-
+    skyPirate.body.gravity.x = game.rnd.integerInRange(-60, -20)
     
-
+    //  Here we add a new animation called 'walk'
+    //  Because we didn't give any other parameters it's going to make an animation from all available frames in the 'mummy' sprite sheet
+    var walk = skyPirate.animations.add('walk');
+    
+    //  And this starts the animation playing by using its key ("walk")
+    //  30 is the frame rate (30fps)
+    //  true means it will loop when it finishes
+    skyPirate.animations.play('walk', 3, true);
     
 }
 
@@ -204,6 +217,7 @@ function collectCracker(player, cracker){
 
 //game ends when player gets caught by pirate
 function parrotCaught(player, skyPirate){
+    birdDead = true;
     player.kill();
 
 
@@ -211,6 +225,10 @@ function parrotCaught(player, skyPirate){
     console.log(score)
     postScore(score, playerID)
 
+}
+
+function actionOnClick(){
+    location.reload();
 }
 
 
