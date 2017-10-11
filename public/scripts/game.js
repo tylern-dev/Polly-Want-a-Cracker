@@ -10,12 +10,14 @@ function preload() {
     game.load.image('pirate_bay', 'assets/bg-full.gif');
     game.load.image('cracker', 'assets/cracker.png')
 
+
     game.load.spritesheet('parrot1', 'assets/parrot.gif', 390, 525);
     //game.load.spritesheet('parrot2', 'assets/parrot.gif', 390, 525);
     //game.load.spritesheet('parrot3', 'assets/parrot.gif', 390, 525);
     //game.load.spritesheet('parrot4', 'assets/parrot.gif', 390, 525);
     //game.load.spritesheet('gun_pirate', 'assets/spritesheets/pirate1_resized.png',355, 470);
     game.load.spritesheet('sky_pirate', 'assets/spritesheets/balloon2_sprite.png',260,440)
+
 
 }
 
@@ -57,7 +59,9 @@ function create() {
     //  And this starts the animation playing by using its key ("run")
     //  15 is the frame rate (15fps)
     //  true means it will loop when it finishes
+
     background.animations.play('run', 0, true);
+
 
     //create parrot and set scaling (x,y, 'sprite name') using the Player's character
     player = game.add.sprite(0, 150, playerCharacter);
@@ -91,6 +95,7 @@ function create() {
     //random crackers on screen
     game.time.events.repeat(settings.crackerTimer, settings.crackersOnScreen, createCracker, this);
 
+
     //random sky pirates on screen
     game.time.events.repeat(settings.skyPirateTimer, settings.skyPiratesOnScreen, createSkyPirate, this);
    
@@ -98,6 +103,7 @@ function create() {
     // groundPirate = game.add.sprite(300,300,'gun_pirate');
     // groundPirate.animations.add('run');
     // groundPirate.animations.play('run')
+
 
     //score text
     scoreText = game.add.text(16,16, 'Score: 0', { fontSize: '32px', fill: '#000' });
@@ -140,10 +146,12 @@ function update() {
     }
 
 
-    groundPirate.x-=2;
+    groundPirate.x-=5;
     if(groundPirate.x < -groundPirate.width){
         groundPirate.x = game.world.width;
     }
+
+
 
     //animate forward scrolling of background
     background.x -= 2;
