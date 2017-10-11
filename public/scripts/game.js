@@ -9,18 +9,22 @@ function preload() {
 
     game.load.image('pirate_bay', 'assets/bg-full.gif');
     game.load.image('cracker', 'assets/cracker.png')
+    game.load.image('button', 'assets/restart-button.gif', 150, 45);
 
     game.load.spritesheet('parrot1', 'assets/parrot.gif', 390, 525);
-    //game.load.spritesheet('parrot2', 'assets/parrot.gif', 390, 525);
-    //game.load.spritesheet('parrot3', 'assets/parrot.gif', 390, 525);
-    //game.load.spritesheet('parrot4', 'assets/parrot.gif', 390, 525);
-    game.load.spritesheet('gun_pirate', 'assets/spritesheets/pirate1_resized.png',355, 470);
+    game.load.spritesheet('parrot2', 'assets/yellowbirdsprite.png', 390, 525);
+    game.load.spritesheet('parrot3', 'assets/greenbirdsprite.png', 390, 525);
+    game.load.spritesheet('parrot4', 'assets/redbirdsprite.png', 390, 525);
     game.load.spritesheet('sky_pirate', 'assets/spritesheets/balloon2_sprite.png',260,440)
+
+    game.load.audio('pirate-song', 'pirate-song.mp3');
+    
+    
 
 }
 
 
-var platforms;
+var music;
 var cursors;
 var player;
 var crackers;
@@ -28,7 +32,8 @@ var groundPirate;
 var skyPirates;
 var skyPirate;
 var background;
-
+var button;
+var birdDead = false;
 
 var score = 0;
 var scoreText;
@@ -46,6 +51,10 @@ function create() {
     //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
+    music = game.add.audio('pirate-song');
+    
+    music.play();
+
     //  A simple background for our game
     background = game.add.sprite(-200, 0, 'pirate_bay');
     // scales the background
@@ -58,10 +67,12 @@ function create() {
     //  15 is the frame rate (15fps)
     //  true means it will loop when it finishes
     background.animations.play('run', 0, true);
+    
+    button = game.add.button(20, 50, 'button', actionOnClick, this, 2, 1, 0);
 
     //create parrot and set scaling (x,y, 'sprite name') using the Player's character
     player = game.add.sprite(0, 150, playerCharacter);
-    player.scale.setTo(0.25, 0.25);
+    player.scale.setTo(0.2, 0.2);
    
 
     //parrot physics
@@ -94,17 +105,14 @@ function create() {
     //random sky pirates on screen
     game.time.events.repeat(settings.skyPirateTimer, settings.skyPiratesOnScreen, createSkyPirate, this);
    
-    //GROUND PIRATE
-    groundPirate = game.add.sprite(300,300,'gun_pirate');
-    groundPirate.animations.add('run');
-    groundPirate.animations.play('run')
+   
 
     //score text
     scoreText = game.add.text(16,16, 'Score: 0', { fontSize: '32px', fill: '#000' });
 
     //parrot controls
     cursors = game.input.keyboard.createCursorKeys();
-    
+
 }
 
 
@@ -140,10 +148,7 @@ function update() {
     }
 
 
-    groundPirate.x-=2;
-    if(groundPirate.x < -groundPirate.width){
-        groundPirate.x = game.world.width;
-    }
+   
 
     //animate forward scrolling of background
     background.x -= 2;
@@ -156,6 +161,10 @@ function update() {
     
 }
 
+// function createButton(){
+//     button = game.add.button(game.world.centerX - 95, 400, 'button', actionOnClick, this, 2, 1, 0);
+    
+// }
 
 
 //creates cracker on screen
@@ -193,6 +202,7 @@ function collectCracker(player, cracker){
 
 //game ends when player get caught by pirate
 function parrotCaught(player, skyPirate){
+    birdDead = true;
     player.kill();
 
 
@@ -200,6 +210,10 @@ function parrotCaught(player, skyPirate){
     console.log(score)
     postScore(score, playerID)
 
+}
+
+function actionOnClick(){
+    location.reload();
 }
 
 

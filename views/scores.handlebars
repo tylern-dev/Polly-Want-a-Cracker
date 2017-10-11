@@ -11,8 +11,9 @@
         </div>
 
         <div class="row">
-            <div class="col-md-6">
-                <table >
+            <div class="col-md-5 mx-auto">
+                <h3 class="table-heading">Global Scores</h3>
+                <table class="table global-scores table-striped">
                     <thead>
                         <th>Ranking</th>
                         <th>Name</th>
@@ -30,8 +31,9 @@
                 </table>
             </div>
             
-            <div class="col-md-6" id="user-scores">
-                <table class="player" data-id=2>
+            <div class="col-md-5 mx-auto" id="user-scores">
+                <h3 class="table-heading">{{user.firstname}}, here are your scores!</h3>
+                <table class="table player player-table table-striped" data-id={{user.id}}>
                     <thead>
                         <th>Ranking</th>
                         <th>Name</th>
