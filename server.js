@@ -12,7 +12,7 @@ var PORT = process.env.PORT || 3000;
 // initiate app
 var app = express();
 
-// models brought in from passport file
+// models brought in from sequelize setup file
 var models = require(path.join(__dirname,'./models/index.js'));
 
 //use public folder with css and scripts
@@ -29,11 +29,18 @@ app.use(session({secret: 'keyboard cat',resave: true, saveUninitialized:true}));
 app.use(passport.initialize());
 app.use(passport.session()); //persistent login sessions
 
-// routes
-// require('./controllers/api-routes.js')(app);
+/**** ROUTES ****/
+
 //imported from my passport files
-require("./controllers/api-route.js")(app);
+require("./controllers/html-routes.js")(app);
+
+//posting scores with routes and passport
+require("./controllers/scores-routes.js")(app);
+
 require('./controllers/auth.js')(app,passport);
+
+/* *************** */
+
 
 // load passport strategies
 require('./config/passport/passport.js')(passport, models.user)
@@ -45,7 +52,7 @@ app.set('view engine', 'handlebars');
 
 
 //sync the DB and start the app
-models.sequelize.sync({force:true}).then(function(){
+models.sequelize.sync().then(function(){
     app.listen(PORT, function(){
         console.log(`Listening on port ${PORT}`)
     });
