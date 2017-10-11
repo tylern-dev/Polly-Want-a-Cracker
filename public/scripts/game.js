@@ -8,6 +8,7 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game-viewport', { preload: pr
 function preload() {
 
     game.load.image('pirate_bay', 'assets/bg-full.gif');
+    game.load.image('pirate_bay', 'assets/gameover.gif');
     game.load.image('cracker', 'assets/cracker.png')
     game.load.image('button', 'assets/restart-button.gif', 150, 45);
 
@@ -20,9 +21,9 @@ function preload() {
     game.load.spritesheet('sky_pirate', 'assets/spritesheets/balloon2_sprite.png',260,440)
 
     game.load.audio('pirate-song', ['assets/pirate-song.mp3']);
+    game.load.audio('crunch', ['assets/bite.mp3']);
+    game.load.audio('deadParrot', ['assets/deadParrot.mp3']);
     
-    
-
 
 }
 
@@ -35,6 +36,7 @@ var groundPirate;
 var skyPirates;
 var skyPirate;
 var background;
+var gameover;
 var button;
 var birdDead = false;
 
@@ -58,19 +60,19 @@ function create() {
     music = game.add.audio('pirate-song');
     music.play();
 
+     // sound load
+    effect = game.add.audio('crunch');
+    effect.pause();
+
+    // endgame load
+    deadParrot = game.add.audio('deadParrot');
+    deadParrot.pause();
+
     //  A simple background for our game
     background = game.add.sprite(-200, 0, 'pirate_bay');
     // scales the background
     background.scale.setTo(1, 1)
-    //  Here we add a new animation called 'run' for the background
-    //  We haven't specified any frames because it's using every frame in the texture atlas
-    background.animations.add('run');
-
-    //  And this starts the animation playing by using its key ("run")
-    //  15 is the frame rate (15fps)
-    //  true means it will loop when it finishes
-
-    background.animations.play('run', 0, true);
+  
     
     button = game.add.button(20, 50, 'button', actionOnClick, this, 2, 1, 0);
 
@@ -118,6 +120,8 @@ function create() {
 
     //parrot controls
     cursors = game.input.keyboard.createCursorKeys();
+
+    
 
 }
 
@@ -208,27 +212,31 @@ function createSkyPirate(){
 
 //cracker disapears when player hits it
 function collectCracker(player, cracker){
+    effect.play();
     cracker.kill();
 
     //update score when cracker is touched
     score++
     scoreText.text = `Score: ${score}`
 }
-
 //game ends when player gets caught by pirate
 function parrotCaught(player, skyPirate){
     birdDead = true;
     player.kill();
-
-
+    music.stop();
+    deadParrot.play();
+    //removes background for easy restart
+    background.kill();
     //display modal with player score
     console.log(score)
     postScore(score, playerID)
-
+    
+    
 }
 
+
 function actionOnClick(){
-    location.reload();
+     location.reload();
 }
 
 
