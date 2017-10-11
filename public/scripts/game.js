@@ -11,7 +11,9 @@ function preload() {
     game.load.image('cracker', 'assets/cracker.png')
     game.load.image('button', 'assets/restart-button.gif', 150, 45);
 
+
     game.load.spritesheet('parrot1', 'assets/parrot.gif', 390, 525);
+
     game.load.spritesheet('parrot2', 'assets/yellowbirdsprite.png', 390, 525);
     game.load.spritesheet('parrot3', 'assets/greenbirdsprite.png', 390, 525);
     game.load.spritesheet('parrot4', 'assets/redbirdsprite.png', 390, 525);
@@ -20,6 +22,7 @@ function preload() {
     game.load.audio('pirate-song', ['assets/pirate-song.mp3']);
     
     
+
 
 }
 
@@ -66,9 +69,11 @@ function create() {
     //  And this starts the animation playing by using its key ("run")
     //  15 is the frame rate (15fps)
     //  true means it will loop when it finishes
+
     background.animations.play('run', 0, true);
     
     button = game.add.button(20, 50, 'button', actionOnClick, this, 2, 1, 0);
+
 
     //create parrot and set scaling (x,y, 'sprite name') using the Player's character
     player = game.add.sprite(0, 150, playerCharacter);
@@ -102,10 +107,11 @@ function create() {
     //random crackers on screen
     game.time.events.repeat(settings.crackerTimer, settings.crackersOnScreen, createCracker, this);
 
+
     //random sky pirates on screen
     game.time.events.repeat(settings.skyPirateTimer, settings.skyPiratesOnScreen, createSkyPirate, this);
    
-   
+
 
     //score text
     scoreText = game.add.text(16,16, 'Score: 0', { fontSize: '32px', fill: '#000' });
@@ -148,7 +154,7 @@ function update() {
     }
 
 
-   
+
 
     //animate forward scrolling of background
     background.x -= 2;
@@ -159,6 +165,7 @@ function update() {
 
     }
     
+
 }
 
 // function createButton(){
@@ -198,6 +205,7 @@ function createSkyPirate(){
 }
 
 
+
 //cracker disapears when player hits it
 function collectCracker(player, cracker){
     cracker.kill();
@@ -207,7 +215,7 @@ function collectCracker(player, cracker){
     scoreText.text = `Score: ${score}`
 }
 
-//game ends when player get caught by pirate
+//game ends when player gets caught by pirate
 function parrotCaught(player, skyPirate){
     birdDead = true;
     player.kill();
