@@ -1,0 +1,70 @@
+
+/* .non-game{
+
+	background-repeat: no-repeat;
+	padding-bottom: 25%;
+	
+} */
+
+.wrapper{
+	background-image: url("../images/web-img/homepage_bkg_new.jpg");
+	background-size: 100%;
+	background-repeat: no-repeat;
+
+}
+
+.header{
+	
+	width: 60%;
+	
+}
+
+.header-game-page{
+	width: 40%;
+}
+
+.header-container{
+	margin-bottom: 20px;
+}
+
+#headImage{
+	background-image: url("../images/headerImg.png");
+	position: relative;
+	background-size: 650px;
+	background-repeat: no-repeat;
+	background-color: black;
+	
+}
+
+.form-container{
+	margin-left: 20px;
+}
+
+#signUp {
+	background-color: #B0B098;
+	/*background-image: url("../images/menuScroll.png");*/
+  	position:relative;
+	background-repeat: no-repeat;
+	padding: 20px;
+	margin-bottom: 200px;
+
+}
+
+.parrot-select{
+	width: 85px;
+}
+
+
+.footer{
+	position: sticky;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+    background-color: #f5f5f5;
+}
+
+.scroll{
+	margin-bottom: 150px;
+}
+
