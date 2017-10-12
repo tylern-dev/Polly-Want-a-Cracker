@@ -5,7 +5,7 @@ var session = require('express-session');
 var bodyParser = require('body-parser');
 var env = require('dotenv').load();
 var exphbs = require('express-handlebars');
-var path = require('path')
+var path = require('path');
 
 var PORT = process.env.PORT || 3000;
 
@@ -31,19 +31,19 @@ app.use(passport.session()); //persistent login sessions
 
 /**** ROUTES ****/
 
-//imported from my passport files
-require("./controllers/html-routes.js")(app);
+// static html routes
+require(path.join(__dirname, "./controllers/html-routes.js"))(app);
 
 //posting scores with routes and passport
-require("./controllers/scores-routes.js")(app);
+require(path.join(__dirname,"./controllers/scores-routes.js"))(app);
 
-require('./controllers/auth.js')(app,passport);
+require(path.join(__dirname,'./controllers/auth.js'))(app,passport);
 
 /* *************** */
 
 
 // load passport strategies
-require('./config/passport/passport.js')(passport, models.user)
+require(path.join(__dirname,'./config/passport/passport.js'))(passport, models.user)
 
 // express-handlebars engine
 

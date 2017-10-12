@@ -65,7 +65,11 @@
 }
 
 .scroll{
-	margin-bottom: 150px;
+	width: 375px;
+    position: relative;
+    margin-left: 71px;
+    margin-top: 75px;
+
 }
 
 /* This automatically auto increments number for the scores table */
@@ -86,12 +90,28 @@ table{
 	color: #fefefe;
 	padding: 10px;
 }
+.form-scroll-container{
+	height: 500px;
+	width: 100%;
+
+	background-image: url("../images/menuScroll.png");
+	background-repeat: no-repeat;
+}
+
 
 .menu{
-	width: 40%;
-	height: 50%;
-	margin-left: 9%;
+	width: 800px;
+	height: 600px;
+	background-color: #1E0824;
+	color:#fefefe;
+	position: relative;
+	z-index: 100; 
+	font-family: 'Metal Mania', cursive;
+}
+.skull-img{
+	height: 200px;
+}
 
-	background-color: black;
-	position: absolute;
+.menu-container{
+	margin-top: 40px;
 }

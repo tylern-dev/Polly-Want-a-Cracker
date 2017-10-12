@@ -1,8 +1,9 @@
 $('document').ready(function(){
     var userSignedIn = $('.player').data('id');
     var tableBodyContainer = $('#player-score');
-    var userScoreContainer = $('#user-scores');
-    tableBodyContainer.append(`<tr><td>`);
+    var userScoreContainer = $('.player-table-container');
+    var formContainter = $('.form-container');
+    
 
     //buildes the user table if user is logged in
     function buildTable(){
@@ -10,10 +11,22 @@ $('document').ready(function(){
             getScore(userSignedIn);
 
         } else {
-            userScoreContainer.append(
+            userScoreContainer.remove();
+            formContainter.append(
                 `
                 <div class="not-Signed-in">
-                <p>Please login to view your personal scores</p>
+                <p class="table-heading">Please login to view your top scores</p>
+                <form action="/signin-scores" method="POST">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" placeholder="name@email.com" name="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" name="password">
+                    </div>
+                    <button type="submit" id="submit-btn">View Your Scores</button>
+                </form>
                 </div>
                 `
             )
