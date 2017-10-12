@@ -20,9 +20,11 @@ function preload() {
     game.load.spritesheet('parrot4', 'assets/redbirdsprite.png', 390, 525);
     game.load.spritesheet('sky_pirate', 'assets/spritesheets/balloon2_sprite.png',260,440)
 
+
     game.load.audio('pirate-song', ['assets/pirate-song.mp3']);
     game.load.audio('crunch', ['assets/bite.mp3']);
     game.load.audio('deadParrot', ['assets/deadParrot.mp3']);
+
     
 
 }
@@ -38,7 +40,6 @@ var skyPirate;
 var background;
 var gameover;
 var button;
-var birdDead = false;
 
 var score = 0;
 var scoreText;
@@ -74,7 +75,7 @@ function create() {
     background.scale.setTo(1, 1)
   
     
-    button = game.add.button(20, 50, 'button', actionOnClick, this, 2, 1, 0);
+    // button = game.add.button(20, 50, 'button', actionOnClick, this, 2, 1, 0);
 
 
     //create parrot and set scaling (x,y, 'sprite name') using the Player's character
@@ -172,11 +173,6 @@ function update() {
 
 }
 
-// function createButton(){
-//     button = game.add.button(game.world.centerX - 95, 400, 'button', actionOnClick, this, 2, 1, 0);
-    
-// }
-
 
 //creates cracker on screen
 function createCracker(){
@@ -221,22 +217,76 @@ function collectCracker(player, cracker){
 }
 //game ends when player gets caught by pirate
 function parrotCaught(player, skyPirate){
-    birdDead = true;
+    music.stop();
     player.kill();
+
+
+    changeDisplay();
+
+
     music.stop();
     deadParrot.play();
     //removes background for easy restart
     background.kill();
     //display modal with player score
     console.log(score)
+
     postScore(score, playerID)
     
     
 }
 
 
+// button to restart the game
+
 function actionOnClick(){
      location.reload();
+}
+
+function changeDisplay(){
+    var menu = $('#menu')
+    $('#game-viewport').remove();
+    menu.addClass('menu');
+    menu.append(
+        `
+        <div class="row mx-auto">
+            <div class="col-md-12 text-center">
+                <h2>Arrgh! Ye been captur\'d</h2>
+            </div>
+        </div>
+        <div class="row mx-auto">
+            <div class="col-md-12 mx-auto text-center ">
+                <img src="assets/skull_bones.png" class="img-fluid skull-img">
+            </div>
+        </div>
+        <div class = "row mx-auto">
+            <div class="col-md-12 mx-auto text-center ">
+                <h3>Your Score: ${score}</h3>
+            </div>
+        </div>
+        <div class="row mx-auto">
+            <div class="col-md-12 mx-auto text-center ">
+                <button class="game-over-btn" id="restart">Retry</button>
+                <button class="game-over-btn" id="view-scores">View Scores</button>
+            </div>
+        </div>
+        `
+    )
+    
+    var restartBtn = $('#restart');
+    var scoreBtn = $('#view-scores');
+
+    // Button actions function
+    $('.game-over-btn').on('click', function(event){
+        event.preventDefault();
+        var result = event.currentTarget.id;
+        if(result === 'restart'){
+            location.reload()
+        }
+        else if(result === 'view-scores'){
+            window.location.href = "/scores";
+        }
+    })   
 }
 
 
