@@ -250,22 +250,22 @@ function changeDisplay(){
     menu.append(
         `
         <div class="row mx-auto">
-            <div class="col-md-12 text-center">
+            <div class="col-md-12 text-center menu-container ">
                 <h2>Arrgh! Ye been captur\'d</h2>
             </div>
         </div>
         <div class="row mx-auto">
-            <div class="col-md-12 mx-auto text-center ">
+            <div class="col-md-12 mx-auto text-center menu-container ">
                 <img src="assets/skull_bones.png" class="img-fluid skull-img">
             </div>
         </div>
         <div class = "row mx-auto">
-            <div class="col-md-12 mx-auto text-center ">
+            <div class="col-md-12 mx-auto text-center menu-container ">
                 <h3>Your Score: ${score}</h3>
             </div>
         </div>
         <div class="row mx-auto">
-            <div class="col-md-12 mx-auto text-center ">
+            <div class="col-md-12 mx-auto text-center menu-container ">
                 <button class="game-over-btn" id="restart">Retry</button>
                 <button class="game-over-btn" id="view-scores">View Scores</button>
             </div>

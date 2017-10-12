@@ -6,6 +6,10 @@
 	
 } */
 
+body{
+	background-color:rgb(38,152,178)
+}
+
 .wrapper{
 	background-image: url("../images/web-img/homepage_bkg_new.jpg");
 	background-size: 100%;
@@ -65,7 +69,11 @@
 }
 
 .scroll{
-	margin-bottom: 150px;
+	width: 375px;
+    position: relative;
+    margin-left: 71px;
+    margin-top: 75px;
+
 }
 
 /* This automatically auto increments number for the scores table */
@@ -86,6 +94,13 @@ table{
 	color: #fefefe;
 	padding: 10px;
 }
+.form-scroll-container{
+	height: 500px;
+	width: 100%;
+
+	background-image: url("../images/menuScroll.png");
+	background-repeat: no-repeat;
+}
 
 
 .menu{
@@ -99,4 +114,8 @@ table{
 }
 .skull-img{
 	height: 200px;
+}
+
+.menu-container{
+	margin-top: 40px;
 }

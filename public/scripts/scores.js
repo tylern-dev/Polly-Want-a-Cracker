@@ -15,7 +15,7 @@ $('document').ready(function(){
             formContainter.append(
                 `
                 <div class="not-Signed-in">
-                <p>Please login to view your personal scores</p>
+                <p class="table-heading">Please login to view your top scores</p>
                 <form action="/signin-scores" method="POST">
                     <div class="form-group">
                         <label for="email">Email</label>
