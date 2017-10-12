@@ -22,7 +22,8 @@ module.exports = function(sequelize, DataType){
             },
 
             character: {
-                type: DataType.STRING
+                type: DataType.STRING,
+                defaultValue: 'parrot1'
             },
     
             about: {

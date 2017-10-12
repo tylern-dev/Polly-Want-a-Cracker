@@ -4,6 +4,7 @@
             <nav class="nav">
                 <a class="nav-link" href="/">Home</a>
                 <a class="nav-link" href="/game">Play</a>
+
             </nav>
         </div>
         <div class="header-container">
@@ -21,31 +22,38 @@
                     </thead>
                     <tbody>
                         {{#each data}}
-                            <tr>
+                        <tr>
                             <td class="counter"></td>
                             <td>{{user.firstname}}</td>
                             <td>{{score}}</td>
-                            </tr>
+                        </tr>
                         {{/each}}
                     </tbody>
                 </table>
             </div>
-            
+
             <div class="col-md-5 mx-auto" id="user-scores">
-                <h3 class="table-heading">{{user.firstname}}, here are your scores!</h3>
-                <table class="table player player-table table-striped" data-id={{user.id}}>
-                    <thead>
-                        <th>Ranking</th>
-                        <th>Name</th>
-                        <th>Score</th>
-                    </thead>
-                    <tbody id="player-score"> 
-                    </tbody>
-                </table>
+                <div class="form-container"></div>
+                <div class="player-table-container">
+                    <h3 class="table-heading">{{user.firstname}}, here are your scores!</h3>
+                    <table class="table player player-table table-striped" data-id={{user.id}}>
+                        <thead>
+                            <th>Ranking</th>
+                            <th>Name</th>
+                            <th>Score</th>
+                        </thead>
+                        <tbody id="player-score">
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
     </div>
-
+    <div class="footer ">
+        <div class="container">
+            <p>&copy 2017 Polly Want a Cracker the Game</p>
+        </div>
+    </div>
 </div>
 <script src="/scripts/scores.js"></script>

@@ -87,11 +87,16 @@ table{
 	padding: 10px;
 }
 
-.menu{
-	width: 40%;
-	height: 50%;
-	margin-left: 9%;
 
-	background-color: black;
-	position: absolute;
+.menu{
+	width: 800px;
+	height: 600px;
+	background-color: #1E0824;
+	color:#fefefe;
+	position: relative;
+	z-index: 100; 
+	font-family: 'Metal Mania', cursive;
+}
+.skull-img{
+	height: 200px;
 }

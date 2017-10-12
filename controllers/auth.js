@@ -1,4 +1,5 @@
-var authController =  require('./authcontroller.js');
+var path = require('path');
+var authController =  require(path.join(__dirname, './authcontroller.js'));
 
 module.exports = function(app, passport){
     app.get('/signup', authController.signup);
@@ -19,6 +20,13 @@ module.exports = function(app, passport){
     //route for posting to signin
     app.post('/signin', passport.authenticate('local-signin', {
         successRedirect: '/game',
+
+        failureRedirect: '/signin'
+    }));
+
+    //route for posting to signin from scores screen
+    app.post('/signin-scores', passport.authenticate('local-signin', {
+        successRedirect: '/scores',
 
         failureRedirect: '/signin'
     }));
