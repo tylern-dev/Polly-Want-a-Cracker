@@ -21,3 +21,7 @@
     "dialect": "mysql"
   }
 }
+
+/* If changes are needed in Heroku, change the env var in index.js to production and
+update this config file with correct db info.
+*/
