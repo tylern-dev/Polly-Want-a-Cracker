@@ -5,7 +5,7 @@ var session = require('express-session');
 var bodyParser = require('body-parser');
 var env = require('dotenv').load();
 var exphbs = require('express-handlebars');
-var path = require('path')
+var path = require('path');
 
 var PORT = process.env.PORT || 3000;
 
